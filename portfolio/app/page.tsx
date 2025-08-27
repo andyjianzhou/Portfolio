@@ -2,7 +2,7 @@ import ThreeBackground from "@/components/three-background"
 import Navigation from "@/components/navigation"
 import HeroSection from "@/components/hero-section"
 import AboutSection from "@/components/about-section"
-import PortfolioSection from "@/components/portfolio-section"
+// import PortfolioSection from "@/components/portfolio-section"
 import ContactSection from "@/components/contact-section"
 import ScrollAnimations from "@/components/scroll-animations"
 
@@ -18,9 +18,9 @@ export default function Home() {
       <div className="scroll-reveal">
         <AboutSection />
       </div>
-      <div className="scroll-reveal">
+      {/* <div className="scroll-reveal">
         <PortfolioSection />
-      </div>
+      </div> */}
       <div className="scroll-reveal">
         <ContactSection />
       </div>
