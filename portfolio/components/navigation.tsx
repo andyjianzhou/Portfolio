@@ -9,6 +9,7 @@ export default function Navigation() {
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 })
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isScrolling, setIsScrolling] = useState(false)
 
   useEffect(() => {
     const checkMobile = () => {
@@ -20,6 +21,43 @@ export default function Navigation() {
     
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
+
+  // Scroll detection for active section
+  useEffect(() => {
+    const sections = ["home", "about", "contact"]
+    let scrollTimeout: NodeJS.Timeout
+
+    const handleScroll = () => {
+      // Set scrolling state
+      setIsScrolling(true)
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(() => setIsScrolling(false), 150)
+
+      const scrollPosition = window.scrollY + window.innerHeight / 3 // Offset for better detection
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sections[i])
+        if (section) {
+          const sectionTop = section.offsetTop
+          if (scrollPosition >= sectionTop) {
+            if (activeSection !== sections[i]) {
+              setActiveSection(sections[i])
+            }
+            break
+          }
+        }
+      }
+    }
+
+    // Initial check
+    handleScroll()
+    
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      clearTimeout(scrollTimeout)
+    }
+  }, [activeSection])
 
   // Update indicator position when active section changes
   useEffect(() => {
