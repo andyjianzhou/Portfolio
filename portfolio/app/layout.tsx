@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { GeistMono } from "geist/font/mono"
+import CustomCursor from "../components/CustomCursor"
 import "./globals.css"
 
 const inter = Inter({
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable} ${GeistMono.variable}`}>
+        <CustomCursor />
         {children}
       </body>
     </html>
