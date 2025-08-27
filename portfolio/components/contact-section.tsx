@@ -98,11 +98,11 @@ export default function ContactSection() {
         {/* Header */}
         <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <h2 className="text-5xl md:text-6xl font-bold mb-8 text-foreground px-4">
-            Let's Create
+            Let&apos;s Create
             <span className="contact-text-gradient block mt-4 mx-auto w-fit leading-tight pb-2">Something Amazing</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto px-4">
-            Ready to bring your vision to life? Let's collaborate and build something extraordinary together.
+            Ready to bring your vision to life? Let&apos;s collaborate and build something extraordinary together.
           </p>
         </div>
 
@@ -111,7 +111,7 @@ export default function ContactSection() {
           <div className={`lg:col-span-1 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
             <h3 className="text-2xl font-bold text-foreground mb-8">Get In Touch</h3>
             <div className="space-y-3">
-              {contactMethods.map((method, index) => {
+              {contactMethods.map((method) => {
                 const IconComponent = method.icon
                 return (
                   <a

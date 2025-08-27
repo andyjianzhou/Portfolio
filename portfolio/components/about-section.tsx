@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import "../styles/about-section.css"

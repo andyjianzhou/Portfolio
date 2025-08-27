@@ -11,11 +11,11 @@ export default function PortfolioAbout() {
             <div>
               <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-6">About Me</h2>
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                I'm a passionate developer who loves creating immersive digital experiences. With a background in both
+                I&apos;m a passionate developer who loves creating immersive digital experiences. With a background in both
                 design and development, I bridge the gap between beautiful interfaces and robust functionality.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                When I'm not coding, you'll find me exploring new technologies, contributing to open source projects, or
+                When I&apos;m not coding, you&apos;ll find me exploring new technologies, contributing to open source projects, or
                 experimenting with 3D graphics and animations.
               </p>
             </div>

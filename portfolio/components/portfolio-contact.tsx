@@ -8,10 +8,10 @@ export default function PortfolioContact() {
   return (
     <section className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-6">Let's Work Together</h2>
+        <div className="text-center mb-12">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-6">Let&apos;s Work Together</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Have a project in mind? I'd love to hear about it and discuss how we can bring your ideas to life.
+            Have a project in mind? I&apos;d love to hear about it. Let&apos;s create something amazing together.
           </p>
         </div>
 

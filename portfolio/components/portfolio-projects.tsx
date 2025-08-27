@@ -35,7 +35,7 @@ export default function PortfolioProjects() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <Card
               key={project.title}
               className="group hover:shadow-2xl transition-all duration-300 bg-background border-border"
