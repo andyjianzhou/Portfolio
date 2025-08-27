@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
+import "../styles/about-section.css"
 
 export default function AboutSection() {
   const [activeTab, setActiveTab] = useState("experience")
@@ -253,7 +254,7 @@ export default function AboutSection() {
                               <h3 className="text-xl font-semibold text-white group-hover:text-gray-200 transition-colors">
                                 {item.title}
                               </h3>
-                              {item.logo && (
+                              {'logo' in item && item.logo && (
                                 <div className="company-logo-container flex-shrink-0 w-6 h-6 rounded-md bg-white/5 backdrop-blur-sm border border-white/10 p-1 group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-300 shadow-sm">
                                   <Image
                                     src={item.logo}
@@ -293,165 +294,6 @@ export default function AboutSection() {
           </div>
         </div>
       </div>
-      
-      <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(2rem);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        /* Timeline Dot Glow Animation */
-        .timeline-dot-glow {
-          box-shadow: 0 0 20px rgba(255,255,255,0.2), 0 0 40px rgba(255,255,255,0.1);
-          transition: box-shadow 0.3s ease, transform 0.3s ease;
-        }
-
-        .timeline-dot-glow:hover {
-          box-shadow: 0 0 30px rgba(255,255,255,0.3), 0 0 60px rgba(255,255,255,0.15);
-          transform: scale(1.05);
-        }
-
-        /* Card Glow Effect */
-        .card-glow {
-          box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3), 
-                    0 0 0 1px rgba(255,255,255,0.1),
-                    0 0 30px rgba(255,255,255,0.03),
-                    0 0 50px rgba(255,255,255,0.02);
-          transition: box-shadow 0.3s ease, transform 0.3s ease-out;
-          transform: translateZ(0);  /* Force GPU acceleration */
-          will-change: transform, box-shadow;
-        }
-
-        .card-glow:hover {
-          box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4), 
-                    0 0 0 1px rgba(255,255,255,0.15),
-                    0 0 30px rgba(255,255,255,0.05),
-                    0 0 60px rgba(255,255,255,0.03);
-          transform: translateY(-2px) translateZ(0);
-        }
-
-        /* Apple Badge Effect */
-        .apple-badge {
-          box-shadow: 0 6px 16px -6px rgba(0,0,0,0.5),
-                    0 0 0 1px rgba(255,255,255,0.2),
-                    0 0 16px rgba(255,255,255,0.1);
-          background-size: 200% 100%;
-          animation: apple-chrome-shift 5s ease-in-out infinite;
-        }
-
-        @keyframes apple-chrome-shift {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-
-        .animate-fade-in-up {
-          animation: fade-in-up 0.8s ease-out;
-        }
-
-        /* Timeline progress glow */
-        .timeline-glow {
-          animation: timeline-pulse 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes timeline-pulse {
-          0% {
-            box-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(200,200,200,0.15);
-          }
-          100% {
-            box-shadow: 0 0 25px rgba(255,255,255,0.4), 0 0 50px rgba(200,200,200,0.2);
-          }
-        }
-
-        /* Clean Text-Only Shimmer Effect - Optimized for dark backgrounds */
-        .timeline-shimmer {
-          background: linear-gradient(
-            90deg,
-            #ffffff 0%,
-            #f0f0f0 15%,
-            #ffffff 30%,
-            #e0e0e0 45%,
-            #ffffff 60%,
-            #f0f0f0 75%,
-            #ffffff 100%
-          );
-          background-size: 200% 100%;
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: clean-text-shimmer 5s ease-in-out infinite;
-          filter: brightness(1.3) contrast(1.2);
-        }
-
-        @keyframes clean-text-shimmer {
-          0%, 100% {
-            background-position: -100% 0;
-          }
-          50% {
-            background-position: 100% 0;
-          }
-        }
-
-        /* Clean Border Backlight Effect with Prominent Breathing Animation */
-        .border-backlight {
-          position: relative;
-          animation: border-breathe 3.5s ease-in-out infinite;
-        }
-
-        @keyframes border-breathe {
-          0%, 100% {
-            box-shadow: 
-              0 10px 30px -10px rgba(0,0,0,0.3),
-              0 0 0 1px rgba(255,255,255,0.15),
-              0 0 15px rgba(255,255,255,0.04),
-              0 0 30px rgba(255,255,255,0.02),
-              inset 0 0 0 1px rgba(255,255,255,0.06);
-          }
-          50% {
-            box-shadow: 
-              0 20px 50px -10px rgba(0,0,0,0.4),
-              0 0 0 1px rgba(255,255,255,0.35),
-              0 0 40px rgba(255,255,255,0.15),
-              0 0 80px rgba(255,255,255,0.08),
-              inset 0 0 0 1px rgba(255,255,255,0.18);
-            transform: scale(1.005);
-          }
-        }
-
-        .border-backlight:hover {
-          animation: border-breathe-hover 2.5s ease-in-out infinite;
-        }
-
-        @keyframes border-breathe-hover {
-          0%, 100% {
-            box-shadow: 
-              0 25px 50px -10px rgba(0,0,0,0.45),
-              0 0 0 1px rgba(255,255,255,0.3),
-              0 0 35px rgba(255,255,255,0.12),
-              0 0 70px rgba(255,255,255,0.06),
-              inset 0 0 0 1px rgba(255,255,255,0.15);
-            transform: scale(1.002);
-          }
-          50% {
-            box-shadow: 
-              0 35px 70px -10px rgba(0,0,0,0.5),
-              0 0 0 1px rgba(255,255,255,0.45),
-              0 0 50px rgba(255,255,255,0.20),
-              0 0 100px rgba(255,255,255,0.12),
-              inset 0 0 0 1px rgba(255,255,255,0.25);
-            transform: scale(1.008);
-          }
-        }
-      `}</style>
     </section>
   )
 }
