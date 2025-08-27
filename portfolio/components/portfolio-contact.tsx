@@ -20,7 +20,7 @@ export default function PortfolioContact() {
             <div>
               <h3 className="font-serif text-2xl font-bold text-foreground mb-6">Get in Touch</h3>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                I'm always open to discussing new opportunities, creative projects, or just having a chat about
+                I&apos;m always open to discussing new opportunities, creative projects, or just having a chat about
                 technology and design.
               </p>
             </div>
