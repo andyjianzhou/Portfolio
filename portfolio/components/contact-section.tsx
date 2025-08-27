@@ -96,11 +96,11 @@ export default function ContactSection() {
       <div className="max-w-6xl mx-auto px-6 w-full">
         {/* Header */}
         <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
+          <h2 className="text-5xl md:text-6xl font-bold mb-8 text-foreground px-4">
             Let's Create
-            <span className="contact-text-gradient block mt-2">Something Amazing</span>
+            <span className="contact-text-gradient block mt-4 mx-auto w-fit leading-tight pb-2">Something Amazing</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto px-4">
             Ready to bring your vision to life? Let's collaborate and build something extraordinary together.
           </p>
         </div>

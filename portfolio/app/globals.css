@@ -296,15 +296,17 @@
   animation: gradient-shift 7s ease-in-out infinite;
   filter: contrast(1.2) brightness(1.1);
   position: relative;
+  min-height: 1.2em;
+  overflow: visible;
 }
 
 .contact-text-gradient::before {
   content: "Something Amazing";
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
   color: transparent;
   z-index: -1;
   animation: breathing-glow 3s ease-in-out infinite alternate;
@@ -324,6 +326,7 @@
   text-align: inherit;
   text-transform: inherit;
   word-spacing: inherit;
+  white-space: nowrap;
 }
 
 @keyframes breathing-glow {
