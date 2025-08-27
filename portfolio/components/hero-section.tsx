@@ -96,12 +96,13 @@ export default function HeroSection() {
             Engineering systems that <span className="prismatic-text font-semibold relative inline-block">power the future</span>
           </p>
           <div className="flex gap-4 justify-center">
+            {/* TODO: Make tag to be "View my Work" for when my portfolio is here */}
             <Button
               size="lg"
               className="bg-white text-black hover:bg-white/90 transition-all duration-300 font-medium"
               onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
             >
-              View My Work
+              About Me
             </Button>
             <Button
               variant="outline"
