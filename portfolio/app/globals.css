@@ -266,6 +266,19 @@
   }
 }
 
+/* Gradient animation for text effects */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 /* Massive hero text styles */
 .hero-massive-text {
   position: absolute;
@@ -292,15 +305,18 @@
 .hero-text-gradient {
   background: linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(220, 220, 220, 0.12) 50%,
-    rgba(255, 255, 255, 0.15) 100%
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(160, 160, 160, 0.18) 25%,
+    rgba(240, 240, 240, 0.28) 50%,
+    rgba(120, 120, 120, 0.15) 75%,
+    rgba(255, 255, 255, 0.25) 100%
   );
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 300% 300%;
-  animation: gradient-shift 8s ease-in-out infinite;
+  animation: gradient-shift 7s ease-in-out infinite;
+  filter: contrast(1.1);
 }
 
 /* Add styles for the centered developer text */
