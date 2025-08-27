@@ -134,7 +134,7 @@ export default function AboutSection() {
   return (
     <section id="about" className="min-h-screen flex items-center py-20">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-4xl md:text-6xl font-bold mb-12 text-white text-center">About Me</h2>
+        <h2 className="text-4xl md:text-6xl font-mono font-medium mb-12 text-white text-center tracking-[0.3em] uppercase">About Me</h2>
 
         {/* Mobile category tabs - clean and simple */}
         <div className="mb-8 lg:hidden">
@@ -229,10 +229,10 @@ export default function AboutSection() {
 
                           <div className="relative">
                             <div className="bg-gradient-to-br from-gray-900/80 via-black/60 to-gray-800/70 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl card-glow border-backlight">
-                              <h4 className="text-3xl font-bold text-white timeline-shimmer mb-3">{exp.company}</h4>
-                              <p className="text-xl text-white/90 mb-3 font-medium">{exp.role}</p>
+                              <h4 className="text-3xl font-sans font-medium text-white timeline-shimmer mb-3 drop-shadow-[0_0_20px_rgba(255,255,255,0.8)]">{exp.company}</h4>
+                              <p className="text-xl text-white/90 mb-3 font-serif italic tracking-wide drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]">{exp.role}</p>
                               <p className="text-white/70 mb-6 text-sm font-mono">{exp.duration}</p>
-                              <p className="text-white/80 mb-8 leading-relaxed max-w-3xl text-lg">{exp.description}</p>
+                              <p className="text-white/80 mb-8 leading-relaxed max-w-3xl text-lg font-sans">{exp.description}</p>
 
                               <div className="flex flex-wrap gap-3">
                                 {exp.tags.map((tag, tagIndex) => (
@@ -271,7 +271,7 @@ export default function AboutSection() {
                           </div>
                           <div className="flex-1 pt-2">
                             <div className="flex items-center gap-3 mb-1">
-                              <h3 className="text-xl font-semibold text-white group-hover:text-gray-200 transition-colors">
+                              <h3 className="text-xl font-sans font-medium text-white group-hover:text-gray-200 transition-colors drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]">
                                 {item.title}
                               </h3>
                               {'logo' in item && item.logo && (
