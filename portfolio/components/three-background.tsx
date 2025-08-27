@@ -1,11 +1,39 @@
 "use client"
 
 import { Canvas, useFrame } from "@react-three/fiber"
-import { useRef, useMemo } from "react"
+import { useRef, useMemo, useEffect, useState } from "react"
 import * as THREE from "three"
 
 function LiquidBlob() {
   const meshRef = useRef<THREE.Mesh>(null)
+  const [currentSection, setCurrentSection] = useState('home')
+
+  // Track which section we're in
+  useEffect(() => {
+    const handleScroll = () => {
+      const homeSection = document.getElementById('home')
+      const aboutSection = document.getElementById('about')
+      
+      if (!homeSection || !aboutSection) return
+      
+      const scrollY = window.scrollY
+      const homeHeight = homeSection.offsetHeight
+      const aboutTop = aboutSection.offsetTop
+      
+      if (scrollY < homeHeight * 0.7) {
+        setCurrentSection('home')
+      } else if (scrollY >= aboutTop - 200) {
+        setCurrentSection('about')
+      } else {
+        setCurrentSection('transition')
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    handleScroll() // Initial check
+    
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Create high-resolution sphere geometry for smooth deformation
   const geometry = useMemo(() => new THREE.SphereGeometry(2, 128, 64), [])
@@ -16,6 +44,7 @@ function LiquidBlob() {
       uniforms: {
         uTime: { value: 0 },
         uScrollY: { value: 0 },
+        uColorTransition: { value: 0 }, // 0 = silver/gray, 1 = black
       },
       vertexShader: `
         uniform float uTime;
@@ -124,6 +153,7 @@ function LiquidBlob() {
       fragmentShader: `
         uniform float uTime;
         uniform float uScrollY;
+        uniform float uColorTransition;
         varying vec3 vNormal;
         varying vec3 vPosition;
         
@@ -163,14 +193,24 @@ function LiquidBlob() {
           // More dramatic contrast to make it pop
           float colorMix = smoothstep(0.1, 0.9, totalLight);
           
-          // Wider contrast range - darker darks, brighter brights
-          vec3 darkColor = vec3(0.08, 0.08, 0.08);  // Darker gray
-          vec3 lightColor = vec3(0.9, 0.9, 0.9);   // Brighter light gray
+          // Define color palettes for different sections
+          // Silver/Gray palette (home section)
+          vec3 silverDark = vec3(0.08, 0.08, 0.08);
+          vec3 silverLight = vec3(0.9, 0.9, 0.9);
+          
+          // Dark Gray palette (about section) - more sophisticated than pure black
+          vec3 grayDark = vec3(0.12, 0.12, 0.12);   // Subtle dark gray
+          vec3 grayLight = vec3(0.35, 0.35, 0.35);  // Medium gray highlights
+          
+          // Interpolate between palettes based on section
+          vec3 darkColor = mix(silverDark, grayDark, uColorTransition);
+          vec3 lightColor = mix(silverLight, grayLight, uColorTransition);
           
           vec3 baseColor = mix(darkColor, lightColor, colorMix);
           
-          // Add bright specular highlights for liquid metal effect
-          vec3 finalColor = baseColor + specular * vec3(0.4, 0.4, 0.4);
+          // Add subtle specular highlights - maintain some shine in dark mode
+          float specularIntensity = mix(0.4, 0.25, uColorTransition);
+          vec3 finalColor = baseColor + specular * vec3(specularIntensity, specularIntensity, specularIntensity);
           
           gl_FragColor = vec4(finalColor, 0.85);
         }
@@ -185,6 +225,24 @@ function LiquidBlob() {
       const material = meshRef.current.material as THREE.ShaderMaterial
       material.uniforms.uTime.value = state.clock.elapsedTime
       material.uniforms.uScrollY.value = window.scrollY || 0
+
+      // Smooth color transition based on current section
+      let targetTransition = 0
+      if (currentSection === 'about') {
+        targetTransition = 1 // Black
+      } else if (currentSection === 'transition') {
+        targetTransition = 0.5 // Mid-transition
+      } else {
+        targetTransition = 0 // Silver/Gray
+      }
+
+      // Smoothly interpolate to target color
+      const currentTransition = material.uniforms.uColorTransition.value
+      material.uniforms.uColorTransition.value = THREE.MathUtils.lerp(
+        currentTransition,
+        targetTransition,
+        0.05 // Smooth transition speed
+      )
 
       // Gentle rotation and floating
       meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.1
