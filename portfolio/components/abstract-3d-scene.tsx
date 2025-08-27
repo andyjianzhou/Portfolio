@@ -52,7 +52,7 @@ function MovingParticles() {
   return (
     <points ref={particlesRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={100} array={particlePositions} itemSize={3} />
+        <bufferAttribute attach="attributes-position" args={[particlePositions, 3]} />
       </bufferGeometry>
       <pointsMaterial color="#ffffff" size={0.05} />
     </points>
