@@ -159,15 +159,20 @@ export default function AboutSection() {
               {/* Experience Section with Timeline */}
               {activeTab === "experience" && (
                 <div id="experience-timeline" className="relative min-h-[200vh]">
+                  {/* Static timeline base line */}
                   <div
-                    className="absolute left-8 top-0 w-0.5 bg-gradient-to-b from-purple-500/30 via-blue-500/30 to-white/20 opacity-50"
+                    className="absolute left-8 top-0 w-1 bg-gradient-to-b from-white/20 via-gray-400/30 to-white/10 opacity-40"
                     style={{ height: "100%" }}
                   ></div>
 
-                  {/* Progress line */}
+                  {/* Animated progress line with aggressive silver gradient */}
                   <div
-                    className="absolute left-8 top-0 w-0.5 bg-gradient-to-b from-purple-400 via-blue-400 to-white transition-all duration-300 shadow-lg"
-                    style={{ height: `${scrollProgress * 100}%` }}
+                    className="absolute left-8 top-0 w-1 bg-gradient-to-b from-white via-gray-200 to-gray-400 transition-all duration-500 shadow-2xl timeline-glow"
+                    style={{ 
+                      height: `${scrollProgress * 100}%`,
+                      filter: 'brightness(1.2) contrast(1.1)',
+                      boxShadow: '0 0 20px rgba(255,255,255,0.4), 0 0 40px rgba(200,200,200,0.2)'
+                    }}
                   ></div>
 
                   <div className="space-y-32 pt-16">
@@ -182,13 +187,13 @@ export default function AboutSection() {
                       >
                         {/* Timeline dot with logo */}
                         <div className="relative z-10 flex-shrink-0">
-                          <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-md rounded-full border-4 border-white/20 shadow-2xl flex items-center justify-center">
+                          <div className="w-16 h-16 bg-gradient-to-br from-gray-100/20 via-white/15 to-gray-300/20 backdrop-blur-md rounded-full border-4 border-white/30 shadow-2xl flex items-center justify-center timeline-dot-glow">
                             <Image
                               src={exp.logo}
                               alt={`${exp.company} logo`}
                               width={24}
                               height={24}
-                              className="object-contain opacity-90"
+                              className="object-contain opacity-90 filter brightness-110 contrast-110"
                             />
                           </div>
                         </div>
@@ -196,26 +201,28 @@ export default function AboutSection() {
                         {/* Content */}
                         <div className="flex-1 pb-16">
                           <div className="mb-4">
-                            <span className="inline-block bg-gradient-to-r from-purple-400 to-blue-400 text-black px-4 py-2 rounded-full text-sm font-semibold mb-4 shadow-lg">
+                            <span className="inline-block bg-gradient-to-r from-white via-gray-200 to-white text-black px-4 py-2 rounded-full text-sm font-semibold mb-4 shadow-lg border border-white/20 apple-badge">
                               {exp.year}
                             </span>
                           </div>
 
-                          <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-2xl">
-                            <h4 className="text-3xl font-bold bg-gradient-to-r from-gray-100 via-white to-gray-300 bg-clip-text text-transparent mb-3">{exp.company}</h4>
-                            <p className="text-xl text-purple-400 mb-3">{exp.role}</p>
-                            <p className="text-white/60 mb-6">{exp.duration}</p>
-                            <p className="text-white/80 mb-8 leading-relaxed max-w-3xl text-lg">{exp.description}</p>
+                          <div className="relative">
+                            <div className="bg-gradient-to-br from-gray-900/80 via-black/60 to-gray-800/70 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl card-glow border-backlight">
+                              <h4 className="text-3xl font-bold text-white timeline-shimmer mb-3">{exp.company}</h4>
+                              <p className="text-xl text-white/90 mb-3 font-medium">{exp.role}</p>
+                              <p className="text-white/70 mb-6 text-sm font-mono">{exp.duration}</p>
+                              <p className="text-white/80 mb-8 leading-relaxed max-w-3xl text-lg">{exp.description}</p>
 
-                            <div className="flex flex-wrap gap-3">
-                              {exp.tags.map((tag, tagIndex) => (
-                                <span
-                                  key={tagIndex}
-                                  className="bg-white/10 text-white/90 px-4 py-2 rounded-full text-sm hover:bg-white/20 transition-all duration-300 border border-white/5 shadow-sm"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
+                              <div className="flex flex-wrap gap-3">
+                                {exp.tags.map((tag, tagIndex) => (
+                                  <span
+                                    key={tagIndex}
+                                    className="bg-secondary/80 text-secondary-foreground px-4 py-2 rounded-full text-sm hover:bg-secondary transition-all duration-300 border border-border/50 shadow-sm backdrop-blur-sm"
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -298,8 +305,151 @@ export default function AboutSection() {
             transform: translateY(0);
           }
         }
+
+        /* Timeline Dot Glow Animation */
+        .timeline-dot-glow {
+          box-shadow: 0 0 20px rgba(255,255,255,0.2), 0 0 40px rgba(255,255,255,0.1);
+          transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .timeline-dot-glow:hover {
+          box-shadow: 0 0 30px rgba(255,255,255,0.3), 0 0 60px rgba(255,255,255,0.15);
+          transform: scale(1.05);
+        }
+
+        /* Card Glow Effect */
+        .card-glow {
+          box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3), 
+                    0 0 0 1px rgba(255,255,255,0.1),
+                    0 0 30px rgba(255,255,255,0.03),
+                    0 0 50px rgba(255,255,255,0.02);
+          transition: box-shadow 0.3s ease, transform 0.3s ease-out;
+          transform: translateZ(0);  /* Force GPU acceleration */
+          will-change: transform, box-shadow;
+        }
+
+        .card-glow:hover {
+          box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4), 
+                    0 0 0 1px rgba(255,255,255,0.15),
+                    0 0 30px rgba(255,255,255,0.05),
+                    0 0 60px rgba(255,255,255,0.03);
+          transform: translateY(-2px) translateZ(0);
+        }
+
+        /* Apple Badge Effect */
+        .apple-badge {
+          box-shadow: 0 6px 16px -6px rgba(0,0,0,0.5),
+                    0 0 0 1px rgba(255,255,255,0.2),
+                    0 0 16px rgba(255,255,255,0.1);
+          background-size: 200% 100%;
+          animation: apple-chrome-shift 5s ease-in-out infinite;
+        }
+
+        @keyframes apple-chrome-shift {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+
         .animate-fade-in-up {
           animation: fade-in-up 0.8s ease-out;
+        }
+
+        /* Timeline progress glow */
+        .timeline-glow {
+          animation: timeline-pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes timeline-pulse {
+          0% {
+            box-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(200,200,200,0.15);
+          }
+          100% {
+            box-shadow: 0 0 25px rgba(255,255,255,0.4), 0 0 50px rgba(200,200,200,0.2);
+          }
+        }
+
+        /* Clean Text-Only Shimmer Effect - Optimized for dark backgrounds */
+        .timeline-shimmer {
+          background: linear-gradient(
+            90deg,
+            #ffffff 0%,
+            #f0f0f0 15%,
+            #ffffff 30%,
+            #e0e0e0 45%,
+            #ffffff 60%,
+            #f0f0f0 75%,
+            #ffffff 100%
+          );
+          background-size: 200% 100%;
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: clean-text-shimmer 5s ease-in-out infinite;
+          filter: brightness(1.3) contrast(1.2);
+        }
+
+        @keyframes clean-text-shimmer {
+          0%, 100% {
+            background-position: -100% 0;
+          }
+          50% {
+            background-position: 100% 0;
+          }
+        }
+
+        /* Clean Border Backlight Effect with Prominent Breathing Animation */
+        .border-backlight {
+          position: relative;
+          animation: border-breathe 3.5s ease-in-out infinite;
+        }
+
+        @keyframes border-breathe {
+          0%, 100% {
+            box-shadow: 
+              0 10px 30px -10px rgba(0,0,0,0.3),
+              0 0 0 1px rgba(255,255,255,0.15),
+              0 0 15px rgba(255,255,255,0.04),
+              0 0 30px rgba(255,255,255,0.02),
+              inset 0 0 0 1px rgba(255,255,255,0.06);
+          }
+          50% {
+            box-shadow: 
+              0 20px 50px -10px rgba(0,0,0,0.4),
+              0 0 0 1px rgba(255,255,255,0.35),
+              0 0 40px rgba(255,255,255,0.15),
+              0 0 80px rgba(255,255,255,0.08),
+              inset 0 0 0 1px rgba(255,255,255,0.18);
+            transform: scale(1.005);
+          }
+        }
+
+        .border-backlight:hover {
+          animation: border-breathe-hover 2.5s ease-in-out infinite;
+        }
+
+        @keyframes border-breathe-hover {
+          0%, 100% {
+            box-shadow: 
+              0 25px 50px -10px rgba(0,0,0,0.45),
+              0 0 0 1px rgba(255,255,255,0.3),
+              0 0 35px rgba(255,255,255,0.12),
+              0 0 70px rgba(255,255,255,0.06),
+              inset 0 0 0 1px rgba(255,255,255,0.15);
+            transform: scale(1.002);
+          }
+          50% {
+            box-shadow: 
+              0 35px 70px -10px rgba(0,0,0,0.5),
+              0 0 0 1px rgba(255,255,255,0.45),
+              0 0 50px rgba(255,255,255,0.20),
+              0 0 100px rgba(255,255,255,0.12),
+              inset 0 0 0 1px rgba(255,255,255,0.25);
+            transform: scale(1.008);
+          }
         }
       `}</style>
     </section>
