@@ -56,7 +56,7 @@ export default function HeroSection() {
       <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 text-center z-20 max-w-4xl px-6">
         <div className="space-y-6">
           <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
-            Optimizing performance and building scalable cloud solutions that handle millions of users across global infrastructure
+            Engineering systems that <span className="prismatic-text font-semibold relative inline-block">power the future</span>
           </p>
           <div className="flex gap-4 justify-center">
             <Button

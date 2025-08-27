@@ -333,6 +333,109 @@
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
+/* Apple-style premium chrome text effect */
+.prismatic-text {
+  background: linear-gradient(
+    135deg,
+    #f8f9fa 0%,
+    #e9ecef 15%,
+    #ffffff 30%,
+    #dee2e6 45%,
+    #f1f3f4 60%,
+    #ffffff 75%,
+    #e9ecef 90%,
+    #f8f9fa 100%
+  );
+  background-size: 300% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: apple-chrome-shift 5s ease-in-out infinite;
+  filter: contrast(1.2) brightness(1.1);
+  position: relative;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  will-change: background-position;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.prismatic-text::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.8) 45%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(255, 255, 255, 0.8) 55%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: apple-shine-sweep 4.5s ease-in-out infinite;
+  border-radius: 4px;
+  opacity: 0;
+  z-index: -1;
+  will-change: background-position, opacity;
+  backface-visibility: hidden;
+}
+
+.prismatic-text::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.03) 50%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  border-radius: 6px;
+  z-index: -2;
+  animation: apple-glow-pulse 3s ease-in-out infinite alternate;
+  will-change: box-shadow;
+  backface-visibility: hidden;
+}
+
+@keyframes apple-chrome-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes apple-shine-sweep {
+  0%, 75%, 100% {
+    background-position: -200% 0;
+    opacity: 0;
+  }
+  15%, 60% {
+    background-position: 200% 0;
+    opacity: 0.4;
+  }
+}
+
+@keyframes apple-glow-pulse {
+  0% {
+    box-shadow: 
+      0 0 8px rgba(255, 255, 255, 0.08),
+      0 0 16px rgba(255, 255, 255, 0.04);
+  }
+  100% {
+    box-shadow: 
+      0 0 12px rgba(255, 255, 255, 0.12),
+      0 0 24px rgba(255, 255, 255, 0.06);
+  }
+}
+
 /* Responsive adjustments for massive text */
 @media (max-width: 1024px) {
   .hero-text-line {
