@@ -37,9 +37,19 @@ export default function HeroSection() {
 
       {/* Name positioned above the sphere */}
       <div className="absolute top-[18%] md:top-[20%] left-1/2 transform -translate-x-1/2 text-center z-20">
-        <p className="text-lg md:text-xl font-mono text-gray-200 tracking-[0.3em] uppercase">
-          A N D Y &nbsp;&nbsp; Z H O U
-        </p>
+        <div className="font-mono text-gray-200 uppercase text-center">
+          {/* Mobile: Stacked vertically */}
+          <div className="block md:hidden">
+            <p className="text-lg tracking-[0.3em]">A N D Y</p>
+            <p className="text-lg tracking-[0.3em]">Z H O U</p>
+          </div>
+          {/* Desktop: Horizontal with original spacing */}
+          <div className="hidden md:block">
+            <p className="text-xl tracking-[0.3em]">
+              A N D Y &nbsp;&nbsp; Z H O U
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Description and buttons positioned at the bottom */}
