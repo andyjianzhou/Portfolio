@@ -244,10 +244,21 @@ function LiquidBlob() {
         0.05 // Smooth transition speed
       )
 
-      // Gentle rotation and floating
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.1
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.1
-      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.2
+      // Tumbling across the screen with scroll
+      const scrollY = window.scrollY || 0
+      const scrollFactor = scrollY * 0.001
+      
+      // Add tumbling rotation as you scroll
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.1 + scrollFactor * 0.5
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.1 + scrollFactor * 0.8
+      meshRef.current.rotation.z = scrollFactor * 0.3 // Z-axis tumbling
+      
+      // Tumble across the screen horizontally as you scroll
+      const horizontalMovement = Math.sin(scrollFactor * 0.4) * 1.5 // Sine wave movement across screen
+      meshRef.current.position.x = horizontalMovement
+      
+      // Gentle vertical floating + slight bounce from scroll
+      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.2 + Math.sin(scrollFactor * 0.6) * 0.2
     }
   })
 
