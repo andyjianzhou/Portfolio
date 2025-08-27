@@ -67,10 +67,10 @@ export default function Abstract3DScene() {
         <ambientLight intensity={0.2} />
         <pointLight position={[10, 10, 10]} intensity={0.5} color="#ffffff" />
 
-        <AbstractShape position={[-3, 2, -2]} scale={0.8} color="#ffffff" />
-        <AbstractShape position={[4, -1, -3]} scale={1.2} color="#cccccc" />
+        <AbstractShape position={[-3, 2, -2]} scale={0.8} color="#e5e5e5" />
+        <AbstractShape position={[4, -1, -3]} scale={1.2} color="#a0a0a0" />
         <AbstractShape position={[-2, -3, -1]} scale={0.6} color="#ffffff" />
-        <AbstractShape position={[3, 3, -4]} scale={1.0} color="#cccccc" />
+        <AbstractShape position={[3, 3, -4]} scale={1.0} color="#c0c0c0" />
 
         <MovingParticles />
       </Canvas>

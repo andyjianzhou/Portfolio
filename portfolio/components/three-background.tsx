@@ -135,9 +135,9 @@ function LiquidBlob() {
           float colorShift = sin(vPosition.x * 2.0 + uTime) * 0.5 + 0.5;
           float colorShift2 = cos(vPosition.y * 1.5 + uTime * 0.8) * 0.5 + 0.5;
           
-          vec3 color1 = vec3(0.6, 0.2, 1.0); // Purple
-          vec3 color2 = vec3(0.2, 0.8, 1.0); // Blue
-          vec3 color3 = vec3(1.0, 0.3, 0.8); // Pink
+          vec3 color1 = vec3(0.8, 0.8, 0.8); // Light Gray
+          vec3 color2 = vec3(0.6, 0.6, 0.6); // Medium Gray
+          vec3 color3 = vec3(0.9, 0.9, 0.9); // Silver
           
           vec3 finalColor = mix(mix(color1, color2, colorShift), color3, colorShift2);
           
@@ -174,7 +174,7 @@ export default function ThreeBackground() {
       <Canvas camera={{ position: [0, 0, 8], fov: 60 }} style={{ background: "transparent" }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#8b5cf6" />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#b0b0b0" />
         <LiquidBlob />
       </Canvas>
     </div>
