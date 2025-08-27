@@ -99,7 +99,7 @@ export default function HeroSection() {
             <Button
               size="lg"
               className="bg-white text-black hover:bg-white/90 transition-all duration-300 font-medium"
-              onClick={() => document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
             >
               View My Work
             </Button>
