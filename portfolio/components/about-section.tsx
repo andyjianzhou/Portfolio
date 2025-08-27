@@ -6,7 +6,7 @@ import Image from "next/image"
 
 export default function AboutSection() {
   const [activeTab, setActiveTab] = useState("experience")
-  const [currentExperience, setCurrentExperience] = useState(0)
+  const [scrollProgress, setScrollProgress] = useState(0)
 
   const experiences = [
     {
@@ -104,6 +104,32 @@ export default function AboutSection() {
     "Git & CI/CD"
   ]
 
+  useEffect(() => {
+    if (activeTab === "experience") {
+      const handleScroll = () => {
+        const section = document.getElementById("experience-timeline")
+        if (section) {
+          const rect = section.getBoundingClientRect()
+          const sectionHeight = section.offsetHeight
+          const viewportHeight = window.innerHeight
+          const scrolled = Math.max(0, viewportHeight - rect.top)
+          const progress = Math.min(scrolled / (sectionHeight + viewportHeight), 1)
+          setScrollProgress(progress)
+        }
+      }
+
+      window.addEventListener("scroll", handleScroll)
+      handleScroll()
+      return () => window.removeEventListener("scroll", handleScroll)
+    } else {
+      // When switching away from experience, scroll back to About section
+      const aboutSection = document.getElementById("about")
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: "smooth", block: "start" })
+      }
+    }
+  }, [activeTab])
+
   return (
     <section id="about" className="min-h-screen flex items-center py-20">
       <div className="max-w-7xl mx-auto px-6">
@@ -130,100 +156,70 @@ export default function AboutSection() {
 
           <div className="lg:col-span-7">
             <div className="min-h-[400px] relative">
-              {/* Experience Section with Horizontal Carousel */}
+              {/* Experience Section with Timeline */}
               {activeTab === "experience" && (
-                <div className="relative">
-                  {/* Navigation Arrows */}
-                  <button
-                    onClick={() => setCurrentExperience(Math.max(0, currentExperience - 1))}
-                    disabled={currentExperience === 0}
-                    className="absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center text-white/80 hover:text-white hover:scale-110 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed animate-pulse"
-                    style={{
-                      animationDuration: '2s'
-                    }}
-                  >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="w-6 h-6">
-                      <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                  <button
-                    onClick={() => setCurrentExperience(Math.min(experiences.length - 1, currentExperience + 1))}
-                    disabled={currentExperience === experiences.length - 1}
-                    className="absolute -right-12 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center text-white/80 hover:text-white hover:scale-110 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed animate-pulse"
-                    style={{
-                      animationDuration: '2s'
-                    }}
-                  >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="w-6 h-6">
-                      <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
+                <div id="experience-timeline" className="relative min-h-[200vh]">
+                  <div
+                    className="absolute left-8 top-0 w-0.5 bg-gradient-to-b from-purple-500/30 via-blue-500/30 to-white/20 opacity-50"
+                    style={{ height: "100%" }}
+                  ></div>
 
-                  {/* Carousel Container */}
-                  <div className="overflow-hidden rounded-2xl">
-                    <div 
-                      className="flex transition-transform duration-500 ease-out"
-                      style={{ transform: `translateX(-${currentExperience * 100}%)` }}
-                    >
-                      {experiences.map((experience, index) => (
-                        <div key={experience.id} className="w-full flex-shrink-0 flex justify-center px-8">
-                          <div className="bg-white/5 backdrop-blur-md rounded-xl p-6 border border-white/10 shadow-xl max-w-md w-full">
-                            <div className="text-center">
-                              {/* Header */}
-                              <div className="flex items-center justify-between mb-6">
-                                <span className="text-xs text-white/40 font-mono">0{index + 1}</span>
-                                <span className="text-xs text-white/40 font-mono">{experience.year}</span>
-                              </div>
-                              
-                              {/* Logo */}
-                              <div className="mb-6">
-                                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center shadow-lg backdrop-blur-sm">
-                                  <Image
-                                    src={experience.logo}
-                                    alt={`${experience.company} logo`}
-                                    width={28}
-                                    height={28}
-                                    className="object-contain opacity-90"
-                                  />
-                                </div>
-                              </div>
-                              
-                              {/* Content */}
-                              <div className="space-y-4">
-                                <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-100 via-white to-gray-300 bg-clip-text text-transparent">
-                                  {experience.company}
-                                </h3>
-                                <p className="text-base text-purple-400">{experience.role}</p>
-                                <p className="text-xs text-white/60">{experience.duration}</p>
-                                <p className="text-white/80 text-sm leading-relaxed px-2">{experience.description}</p>
-                                
-                                <div className="flex flex-wrap justify-center gap-2 pt-2">
-                                  {experience.tags.slice(0, 3).map((tag, tagIndex) => (
-                                    <span key={tagIndex} className="px-3 py-1 bg-white/10 rounded-full text-xs text-white/80 border border-white/5">
-                                      {tag}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
+                  {/* Progress line */}
+                  <div
+                    className="absolute left-8 top-0 w-0.5 bg-gradient-to-b from-purple-400 via-blue-400 to-white transition-all duration-300 shadow-lg"
+                    style={{ height: `${scrollProgress * 100}%` }}
+                  ></div>
+
+                  <div className="space-y-32 pt-16">
+                    {experiences.map((exp, index) => (
+                      <div
+                        key={index}
+                        className="relative flex items-start space-x-8 opacity-0 translate-y-8 animate-fade-in-up"
+                        style={{
+                          animationDelay: `${index * 0.2}s`,
+                          animationFillMode: "forwards",
+                        }}
+                      >
+                        {/* Timeline dot with logo */}
+                        <div className="relative z-10 flex-shrink-0">
+                          <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-md rounded-full border-4 border-white/20 shadow-2xl flex items-center justify-center">
+                            <Image
+                              src={exp.logo}
+                              alt={`${exp.company} logo`}
+                              width={24}
+                              height={24}
+                              className="object-contain opacity-90"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 pb-16">
+                          <div className="mb-4">
+                            <span className="inline-block bg-gradient-to-r from-purple-400 to-blue-400 text-black px-4 py-2 rounded-full text-sm font-semibold mb-4 shadow-lg">
+                              {exp.year}
+                            </span>
+                          </div>
+
+                          <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 shadow-2xl">
+                            <h4 className="text-3xl font-bold bg-gradient-to-r from-gray-100 via-white to-gray-300 bg-clip-text text-transparent mb-3">{exp.company}</h4>
+                            <p className="text-xl text-purple-400 mb-3">{exp.role}</p>
+                            <p className="text-white/60 mb-6">{exp.duration}</p>
+                            <p className="text-white/80 mb-8 leading-relaxed max-w-3xl text-lg">{exp.description}</p>
+
+                            <div className="flex flex-wrap gap-3">
+                              {exp.tags.map((tag, tagIndex) => (
+                                <span
+                                  key={tagIndex}
+                                  className="bg-white/10 text-white/90 px-4 py-2 rounded-full text-sm hover:bg-white/20 transition-all duration-300 border border-white/5 shadow-sm"
+                                >
+                                  {tag}
+                                </span>
+                              ))}
                             </div>
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Dot Navigation */}
-                  <div className="flex justify-center items-center mt-8 space-x-2">
-                    {experiences.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentExperience(index)}
-                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                          currentExperience === index 
-                            ? "bg-white shadow-lg" 
-                            : "bg-white/30 hover:bg-white/50"
-                        }`}
-                      />
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -290,6 +286,22 @@ export default function AboutSection() {
           </div>
         </div>
       </div>
+      
+      <style jsx>{`
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(2rem);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 0.8s ease-out;
+        }
+      `}</style>
     </section>
   )
 }
