@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
+import { Mail, Linkedin, Github, FileText } from "lucide-react"
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -62,28 +63,28 @@ export default function ContactSection() {
 
   const contactMethods = [
     {
-      icon: "📧",
+      icon: Mail,
       label: "Email",
       value: "andyzhou727@gmail.com",
       href: "mailto:andyzhou727@gmail.com",
       description: "Best for project inquiries"
     },
     {
-      icon: "💼",
+      icon: Linkedin,
       label: "LinkedIn",
       value: "Connect professionally",
       href: "https://www.linkedin.com/in/andyzhou01/",
       description: "Professional networking"
     },
     {
-      icon: "💻",
+      icon: Github,
       label: "GitHub",
       value: "View my code",
       href: "https://github.com/andyjianzhou",
       description: "See my open source work"
     },
     {
-      icon: "📄",
+      icon: FileText,
       label: "Resume",
       value: "Download PDF",
       href: "/resume.pdf",
@@ -109,37 +110,34 @@ export default function ContactSection() {
           {/* Contact Methods */}
           <div className={`lg:col-span-1 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
             <h3 className="text-2xl font-bold text-foreground mb-8">Get In Touch</h3>
-            <div className="space-y-4">
-              {contactMethods.map((method, index) => (
-                <a
-                  key={method.label}
-                  href={method.href}
-                  target={method.label === "LinkedIn" || method.label === "GitHub" ? "_blank" : "_self"}
-                  rel={method.label === "LinkedIn" || method.label === "GitHub" ? "noopener noreferrer" : ""}
-                  className="group block transition-all duration-300"
-                >
-                  <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:bg-card hover:-translate-y-1 transition-all duration-300">
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-4">
-                        <div className="text-xl group-hover:scale-110 transition-transform duration-300">
-                          {method.icon}
-                        </div>
-                        <div className="flex-1">
-                          <div className="font-semibold text-foreground">
-                            {method.label}
-                          </div>
-                          <div className="text-sm text-muted-foreground">
-                            {method.value}
-                          </div>
-                        </div>
-                        <div className="text-muted-foreground group-hover:text-foreground group-hover:translate-x-1 transition-all duration-300">
-                          →
-                        </div>
+            <div className="space-y-3">
+              {contactMethods.map((method, index) => {
+                const IconComponent = method.icon
+                return (
+                  <a
+                    key={method.label}
+                    href={method.href}
+                    target={method.label === "LinkedIn" || method.label === "GitHub" ? "_blank" : "_self"}
+                    rel={method.label === "LinkedIn" || method.label === "GitHub" ? "noopener noreferrer" : ""}
+                    className="group flex items-center gap-4 py-3 px-2 rounded-lg hover:bg-white/5 transition-all duration-300 hover:translate-x-1"
+                  >
+                    <div className="text-muted-foreground group-hover:text-foreground group-hover:scale-110 transition-all duration-300">
+                      <IconComponent size={20} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold text-foreground group-hover:text-white transition-colors duration-300">
+                        {method.label}
                       </div>
-                    </CardContent>
-                  </Card>
-                </a>
-              ))}
+                      <div className="text-sm text-muted-foreground group-hover:text-gray-300 transition-colors duration-300">
+                        {method.value}
+                      </div>
+                    </div>
+                    <div className="text-muted-foreground group-hover:text-foreground group-hover:translate-x-1 transition-all duration-300 opacity-0 group-hover:opacity-100">
+                      →
+                    </div>
+                  </a>
+                )
+              })}
             </div>
           </div>
 
