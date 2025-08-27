@@ -18,7 +18,7 @@ export default function AboutSection() {
       duration: "Summer 2025",
       description: "Developing scalable cloud infrastructure and services, working with cutting-edge AWS technologies to build solutions that serve millions of users globally.",
       logo: "/logos/aws.svg",
-      tags: ["AWS", "Cloud Computing", "Distributed Systems"]
+      tags: ["AWS", "Cloud Computing", "Distributed Systems", "Data Optimization", "Data Engineering"]
     },
     {
       id: "rbc",
@@ -28,7 +28,7 @@ export default function AboutSection() {
       duration: "Summer 2024",
       description: "Built financial technology solutions and contributed to digital banking platforms, focusing on security, performance, and user experience.",
       logo: "/logos/rbc.svg",
-      tags: ["FinTech", "React", "Security"]
+      tags: ["FinTech", "React", "Big-Data Optimization"]
     },
     {
       id: "arcurve",
@@ -48,7 +48,7 @@ export default function AboutSection() {
       duration: "Summer 2022",
       description: "Created impactful solutions for non-profit organizations, building platforms that help charitable organizations reach their goals and connect with communities.",
       logo: "/logos/bcharity.svg",
-      tags: ["Non-Profit", "Social Impact", "Web Development"]
+      tags: ["Block Chain", "Social Impact", "Web Development"]
     }
   ]
 
