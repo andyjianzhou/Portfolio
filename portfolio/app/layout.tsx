@@ -1,0 +1,30 @@
+import type React from "react"
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import { GeistMono } from "geist/font/mono"
+import "./globals.css"
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+})
+
+export const metadata: Metadata = {
+  title: "Personal Portfolio App",
+  description: "Personal Portfolio app",
+  generator: "Personal Portfolio App",
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
+  return (
+    <html lang="en">
+      <body className={`font-sans ${inter.variable} ${GeistMono.variable}`}>{children}</body>
+    </html>
+  )
+}
