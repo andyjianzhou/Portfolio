@@ -129,22 +129,50 @@ function LiquidBlob() {
         
         void main() {
           vec3 viewDirection = normalize(cameraPosition - vPosition);
-          float fresnel = pow(1.0 - dot(viewDirection, vNormal), 2.0);
           
-          // Create iridescent colors based on position and time
-          float colorShift = sin(vPosition.x * 2.0 + uTime) * 0.5 + 0.5;
-          float colorShift2 = cos(vPosition.y * 1.5 + uTime * 0.8) * 0.5 + 0.5;
+          // Even ambient lighting from multiple angles to eliminate harsh sides
+          vec3 light1 = normalize(vec3(1.0, 1.0, 1.0));
+          vec3 light2 = normalize(vec3(-1.0, 1.0, 1.0));
+          vec3 light3 = normalize(vec3(1.0, -1.0, 1.0));
+          vec3 light4 = normalize(vec3(-1.0, -1.0, 1.0));
           
-          vec3 color1 = vec3(0.8, 0.8, 0.8); // Light Gray
-          vec3 color2 = vec3(0.6, 0.6, 0.6); // Medium Gray
-          vec3 color3 = vec3(0.9, 0.9, 0.9); // Silver
+          // Soft, even lighting from all directions
+          float lighting = (dot(vNormal, light1) + 
+                           dot(vNormal, light2) + 
+                           dot(vNormal, light3) + 
+                           dot(vNormal, light4)) * 0.25;
           
-          vec3 finalColor = mix(mix(color1, color2, colorShift), color3, colorShift2);
+          // Normalize lighting to prevent extreme values
+          lighting = lighting * 0.5 + 0.5;
           
-          // Add fresnel effect for glass-like appearance
-          finalColor = mix(finalColor, vec3(1.0), fresnel * 0.3);
+          // Enhanced specular highlights for more pop
+          vec3 reflectDir = reflect(-viewDirection, vNormal);
+          float specular = pow(max(0.0, dot(viewDirection, reflectDir)), 12.0) * 0.6;
           
-          gl_FragColor = vec4(finalColor, 0.8);
+          // Subtle fresnel rim lighting for definition
+          float fresnel = pow(1.0 - max(0.0, dot(viewDirection, vNormal)), 2.0) * 0.3;
+          
+          // Create organic surface variation based on the liquid deformation
+          float surfaceNoise = sin(vPosition.x * 4.0 + uTime * 0.3) * 
+                              cos(vPosition.y * 3.5 + uTime * 0.4) * 
+                              sin(vPosition.z * 3.0 + uTime * 0.2) * 0.15;
+          
+          // Combine lighting factors with more contrast
+          float totalLight = lighting + specular + fresnel + surfaceNoise;
+          
+          // More dramatic contrast to make it pop
+          float colorMix = smoothstep(0.1, 0.9, totalLight);
+          
+          // Wider contrast range - darker darks, brighter brights
+          vec3 darkColor = vec3(0.08, 0.08, 0.08);  // Darker gray
+          vec3 lightColor = vec3(0.9, 0.9, 0.9);   // Brighter light gray
+          
+          vec3 baseColor = mix(darkColor, lightColor, colorMix);
+          
+          // Add bright specular highlights for liquid metal effect
+          vec3 finalColor = baseColor + specular * vec3(0.4, 0.4, 0.4);
+          
+          gl_FragColor = vec4(finalColor, 0.85);
         }
       `,
       transparent: true,
