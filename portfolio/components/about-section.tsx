@@ -143,7 +143,7 @@ export default function AboutSection() {
               <button
                 key={key}
                 onClick={() => setActiveTab(key)}
-                className={`px-4 py-3 rounded-full transition-all duration-300 text-sm font-medium min-h-[44px] ${
+                className={`px-4 py-3 rounded-full transition-all duration-300 text-sm font-sans font-medium tracking-wide min-h-[44px] ${
                   activeTab === key
                     ? "bg-white/15 text-white border border-white/30 shadow-lg backdrop-blur-sm"
                     : "text-white/70 hover:text-white/90 hover:bg-white/10 border border-white/10 hover:border-white/20"
@@ -169,7 +169,7 @@ export default function AboutSection() {
                       : "text-white/60 hover:text-white/80 hover:bg-white/5"
                   }`}
                 >
-                  <div className="font-medium">{category.title}</div>
+                  <div className="font-sans font-medium tracking-wide">{category.title}</div>
                 </button>
               ))}
             </div>
@@ -286,7 +286,7 @@ export default function AboutSection() {
                                 </div>
                               )}
                             </div>
-                            <p className="text-white/70 leading-relaxed">{item.subtitle}</p>
+                            <p className="text-white/70 leading-relaxed font-sans">{item.subtitle}</p>
                           </div>
                         </div>
                       ))}
@@ -299,7 +299,7 @@ export default function AboutSection() {
 
           <div className="lg:col-span-3">
             <Card className="bg-white/10 backdrop-blur-md border-white/15 p-4 sticky top-24 shadow-2xl">
-              <h3 className="text-lg font-semibold mb-4 text-white tracking-tight">Skills & Technologies</h3>
+              <h3 className="text-lg font-sans font-medium mb-4 text-white tracking-wide">Skills & Technologies</h3>
               <div className="grid grid-cols-2 gap-2">
                 {skills.map((skill, index) => (
                   <div
