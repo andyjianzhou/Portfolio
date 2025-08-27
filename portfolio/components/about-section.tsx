@@ -54,7 +54,7 @@ export default function AboutSection() {
 
   const categories = {
     experience: {
-      title: "Professional Experience",
+      title: "Experience",
       items: [
         { year: "2025", title: "Amazon Web Services", subtitle: "Software Development Engineer Intern", logo: "/logos/aws.svg" },
         { year: "2024", title: "Royal Bank of Canada", subtitle: "Software Engineer Intern & MLH Fellow", logo: "/logos/rbc.svg" },
@@ -136,8 +136,28 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-4xl md:text-6xl font-bold mb-12 text-white text-center">About Me</h2>
 
+        {/* Mobile category tabs - clean and simple */}
+        <div className="mb-8 lg:hidden">
+          <div className="flex flex-wrap gap-3 justify-center">
+            {Object.entries(categories).map(([key, category]) => (
+              <button
+                key={key}
+                onClick={() => setActiveTab(key)}
+                className={`px-4 py-3 rounded-full transition-all duration-300 text-sm font-medium min-h-[44px] ${
+                  activeTab === key
+                    ? "bg-white/15 text-white border border-white/30 shadow-lg backdrop-blur-sm"
+                    : "text-white/70 hover:text-white/90 hover:bg-white/10 border border-white/10 hover:border-white/20"
+                }`}
+              >
+                {category.title}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-2">
+          {/* Desktop sidebar - hidden on mobile */}
+          <div className="hidden lg:block lg:col-span-2">
             <div className="sticky top-24 space-y-1">
               {Object.entries(categories).map(([key, category]) => (
                 <button
@@ -155,7 +175,7 @@ export default function AboutSection() {
             </div>
           </div>
 
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 col-span-full">
             <div className="min-h-[400px] relative">
               {/* Experience Section with Timeline */}
               {activeTab === "experience" && (

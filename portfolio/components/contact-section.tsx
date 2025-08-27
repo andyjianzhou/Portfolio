@@ -38,8 +38,19 @@ export default function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log("Form submitted:", formData)
+    
+    // Create mailto link with form data
+    const subject = encodeURIComponent(`Contact Form Submission from ${formData.name}`)
+    const body = encodeURIComponent(
+      `Hi Andy,\n\n` +
+      `Name: ${formData.name}\n` +
+      `Email: ${formData.email}\n\n` +
+      `Message:\n${formData.message}\n\n` +
+      `Best regards,\n${formData.name}`
+    )
+    
+    const mailtoLink = `mailto:andyzhou727@gmail.com?subject=${subject}&body=${body}`
+    window.open(mailtoLink, '_self')
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -94,7 +105,7 @@ export default function ContactSection() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-12">
+        <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
           {/* Contact Methods */}
           <div className={`lg:col-span-1 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
             <h3 className="text-2xl font-bold text-foreground mb-8">Get In Touch</h3>
