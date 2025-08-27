@@ -4,47 +4,60 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 
 export default function AboutSection() {
-  const [activeTab, setActiveTab] = useState("education")
+  const [activeTab, setActiveTab] = useState("experience")
 
   const categories = {
+    experience: {
+      title: "Professional Experience",
+      items: [
+        { year: "2025", title: "Amazon Web Services", subtitle: "Software Development Engineer Intern" },
+        { year: "2024", title: "Royal Bank of Canada", subtitle: "Software Engineer Intern & MLH Fellow" },
+        { year: "2023", title: "Arcurve Inc.", subtitle: "Software Engineer Intern" },
+        { year: "2022", title: "BCharity", subtitle: "Software Engineer Intern" },
+      ],
+    },
     education: {
       title: "Education",
       items: [
-        { year: "2023", title: "Computer Science Degree", subtitle: "University of Technology" },
-        { year: "2021", title: "Web Development Bootcamp", subtitle: "Tech Academy" },
-      ],
-    },
-    location: {
-      title: "Location",
-      items: [
-        { year: "Current", title: "San Francisco, CA", subtitle: "Based in the heart of tech innovation" },
-        { year: "2020", title: "New York, NY", subtitle: "Previously worked remotely" },
-      ],
-    },
-    interests: {
-      title: "Personal Interests",
-      items: [
-        { year: "Always", title: "Generative Art", subtitle: "Creating algorithmic visual experiences" },
-        { year: "Hobby", title: "Photography", subtitle: "Capturing moments and compositions" },
+        { year: "Current", title: "Bachelor of Computer Science", subtitle: "University of Alberta, Edmonton" },
       ],
     },
     learning: {
       title: "Currently Learning",
       items: [
-        { year: "2024", title: "AI/ML Integration", subtitle: "Exploring AI-powered web experiences" },
-        { year: "2024", title: "Advanced WebGL", subtitle: "Pushing 3D graphics boundaries" },
+        { year: "🤖", title: "LLMs & AI Integration", subtitle: "" },
+        { year: "🏗️", title: "Distributed Systems", subtitle: "" },
+        { year: "⚡", title: "System Design", subtitle: "" },
+        { year: "☁️", title: "Cloud Infrastructure", subtitle: "" },
       ],
     },
-    experience: {
-      title: "Previously Interned At",
+    location: {
+      title: "Location",
       items: [
-        { year: "2023", title: "Meta", subtitle: "Frontend Engineering Intern" },
-        { year: "2022", title: "Google", subtitle: "UX Engineering Intern" },
+        { year: "Current", title: "Edmonton, AB", subtitle: "University of Alberta student" },
+        { year: "2025", title: "Vancouver, BC", subtitle: "Amazon Web Services internship" },
+        { year: "2024", title: "Calgary, AB", subtitle: "Royal Bank of Canada & Arcurve Inc." },
+      ],
+    },
+    interests: {
+      title: "Personal Interests",
+      items: [
+        { year: "Always", title: "Sports & Athletics", subtitle: "Staying active and competitive" },
+        { year: "Passion", title: "Machine Learning", subtitle: "Building AI-powered applications & solutions" },
       ],
     },
   }
 
-  const skills = ["React & Next.js", "Three.js & WebGL", "TypeScript", "Node.js", "UI/UX Design", "Creative Coding"]
+  const skills = [
+    "React & TypeScript",
+    "Node.js & Python", 
+    "AWS & Docker",
+    "PostgreSQL & MongoDB",
+    "PyTorch & ML",
+    "Java & C#/.NET",
+    "GraphQL & REST APIs",
+    "Git & CI/CD"
+  ]
 
   return (
     <section id="about" className="min-h-screen flex items-center py-20">
