@@ -1,10 +1,47 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { useEffect, useRef } from "react"
 
 export default function HeroSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const textRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    const text = textRef.current
+    
+    if (!section || !text) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const ratio = entry.intersectionRatio
+          const isLeaving = entry.boundingClientRect.top < 0
+          
+          if (isLeaving && ratio < 0.8) {
+            // Quick Apple-style snap out
+            text.style.opacity = '0'
+            text.style.transform = 'translateY(20px) scale(0.95)'
+          } else if (!isLeaving || ratio >= 0.8) {
+            // Quick snap back in
+            text.style.opacity = '1'
+            text.style.transform = 'translateY(0px) scale(1)'
+          }
+        })
+      },
+      { 
+        threshold: [0, 0.2, 0.5, 0.8, 1],
+        rootMargin: '0px'
+      }
+    )
+
+    observer.observe(section)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section ref={sectionRef} id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Massive background text that fills the entire screen */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
         <div className="hero-massive-text select-none">
@@ -53,7 +90,7 @@ export default function HeroSection() {
       </div>
 
       {/* Description and buttons positioned at the bottom */}
-      <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 text-center z-20 max-w-4xl px-6">
+      <div ref={textRef} className="absolute bottom-24 left-1/2 transform -translate-x-1/2 text-center z-20 max-w-4xl px-6 transition-all duration-300 ease-[cubic-bezier(0.2,0,0,1)]">
         <div className="space-y-6">
           <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed">
             Engineering systems that <span className="prismatic-text font-semibold relative inline-block">power the future</span>
