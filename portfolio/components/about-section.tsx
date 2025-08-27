@@ -1,19 +1,64 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Card } from "@/components/ui/card"
+import Image from "next/image"
 
 export default function AboutSection() {
   const [activeTab, setActiveTab] = useState("experience")
+  const [currentExperience, setCurrentExperience] = useState(0)
+
+  const experiences = [
+    {
+      id: "aws",
+      company: "Amazon Web Services",
+      role: "Software Development Engineer Intern",
+      year: "2025",
+      duration: "Summer 2025",
+      description: "Developing scalable cloud infrastructure and services, working with cutting-edge AWS technologies to build solutions that serve millions of users globally.",
+      logo: "/logos/aws.svg",
+      tags: ["AWS", "Cloud Computing", "Distributed Systems"]
+    },
+    {
+      id: "rbc",
+      company: "Royal Bank of Canada",
+      role: "Software Engineer Intern & MLH Fellow",
+      year: "2024", 
+      duration: "Summer 2024",
+      description: "Built financial technology solutions and contributed to digital banking platforms, focusing on security, performance, and user experience.",
+      logo: "/logos/rbc.svg",
+      tags: ["FinTech", "React", "Security"]
+    },
+    {
+      id: "arcurve",
+      company: "Arcurve Inc.",
+      role: "Software Engineer Intern",
+      year: "2023",
+      duration: "Summer 2023", 
+      description: "Developed custom software solutions for enterprise clients, working with modern web technologies and agile development practices.",
+      logo: "/logos/arcurve.svg",
+      tags: ["Full-Stack", "Enterprise", "Agile"]
+    },
+    {
+      id: "bcharity",
+      company: "BCharity",
+      role: "Software Engineer Intern",
+      year: "2022",
+      duration: "Summer 2022",
+      description: "Created impactful solutions for non-profit organizations, building platforms that help charitable organizations reach their goals and connect with communities.",
+      logo: "/logos/bcharity.svg",
+      tags: ["Non-Profit", "Social Impact", "Web Development"]
+    }
+  ]
 
   const categories = {
     experience: {
       title: "Professional Experience",
       items: [
-        { year: "2025", title: "Amazon Web Services", subtitle: "Software Development Engineer Intern" },
-        { year: "2024", title: "Royal Bank of Canada", subtitle: "Software Engineer Intern & MLH Fellow" },
-        { year: "2023", title: "Arcurve Inc.", subtitle: "Software Engineer Intern" },
-        { year: "2022", title: "BCharity", subtitle: "Software Engineer Intern" },
+        { year: "2025", title: "Amazon Web Services", subtitle: "Software Development Engineer Intern", logo: "/logos/aws.svg" },
+        { year: "2024", title: "Royal Bank of Canada", subtitle: "Software Engineer Intern & MLH Fellow", logo: "/logos/rbc.svg" },
+        { year: "2023", title: "Arcurve Inc.", subtitle: "Software Engineer Intern", logo: "/logos/arcurve.svg" },
+        { year: "2022", title: "BCharity", subtitle: "Software Engineer Intern", logo: "/logos/bcharity.svg" },
       ],
     },
     education: {
@@ -64,14 +109,14 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-4xl md:text-6xl font-bold mb-12 text-white text-center">About Me</h2>
 
-        <div className="grid lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-3">
-            <div className="sticky top-24 space-y-2">
+        <div className="grid lg:grid-cols-12 gap-12">
+          <div className="lg:col-span-2">
+            <div className="sticky top-24 space-y-1">
               {Object.entries(categories).map(([key, category]) => (
                 <button
                   key={key}
                   onClick={() => setActiveTab(key)}
-                  className={`w-full text-left px-6 py-4 rounded-xl transition-all duration-300 ${
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 text-sm ${
                     activeTab === key
                       ? "bg-gradient-to-r from-white/15 to-gray-200/10 text-white border border-white/20 shadow-lg backdrop-blur-sm"
                       : "text-white/60 hover:text-white/80 hover:bg-white/5"
@@ -83,43 +128,159 @@ export default function AboutSection() {
             </div>
           </div>
 
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-7">
             <div className="min-h-[400px] relative">
-              {Object.entries(categories).map(([key, category]) => (
-                <div
-                  key={key}
-                  className={`absolute inset-0 transition-all duration-500 ${
-                    activeTab === key ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
-                  }`}
-                >
-                  <div className="space-y-6">
-                    {category.items.map((item, index) => (
-                      <div key={index} className="flex items-start gap-6 group">
-                        <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-white/20 to-gray-300/15 border border-white/15 flex items-center justify-center text-sm font-medium text-white/90 shadow-lg backdrop-blur-sm">
-                          {item.year}
+              {/* Experience Section with Horizontal Carousel */}
+              {activeTab === "experience" && (
+                <div className="relative">
+                  {/* Navigation Arrows */}
+                  <button
+                    onClick={() => setCurrentExperience(Math.max(0, currentExperience - 1))}
+                    disabled={currentExperience === 0}
+                    className="absolute -left-12 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center text-white/80 hover:text-white hover:scale-110 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed animate-pulse"
+                    style={{
+                      animationDuration: '2s'
+                    }}
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="w-6 h-6">
+                      <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setCurrentExperience(Math.min(experiences.length - 1, currentExperience + 1))}
+                    disabled={currentExperience === experiences.length - 1}
+                    className="absolute -right-12 top-1/2 -translate-y-1/2 z-10 w-8 h-8 flex items-center justify-center text-white/80 hover:text-white hover:scale-110 transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed animate-pulse"
+                    style={{
+                      animationDuration: '2s'
+                    }}
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="w-6 h-6">
+                      <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </button>
+
+                  {/* Carousel Container */}
+                  <div className="overflow-hidden rounded-2xl">
+                    <div 
+                      className="flex transition-transform duration-500 ease-out"
+                      style={{ transform: `translateX(-${currentExperience * 100}%)` }}
+                    >
+                      {experiences.map((experience, index) => (
+                        <div key={experience.id} className="w-full flex-shrink-0 flex justify-center px-8">
+                          <div className="bg-white/5 backdrop-blur-md rounded-xl p-6 border border-white/10 shadow-xl max-w-md w-full">
+                            <div className="text-center">
+                              {/* Header */}
+                              <div className="flex items-center justify-between mb-6">
+                                <span className="text-xs text-white/40 font-mono">0{index + 1}</span>
+                                <span className="text-xs text-white/40 font-mono">{experience.year}</span>
+                              </div>
+                              
+                              {/* Logo */}
+                              <div className="mb-6">
+                                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center shadow-lg backdrop-blur-sm">
+                                  <Image
+                                    src={experience.logo}
+                                    alt={`${experience.company} logo`}
+                                    width={28}
+                                    height={28}
+                                    className="object-contain opacity-90"
+                                  />
+                                </div>
+                              </div>
+                              
+                              {/* Content */}
+                              <div className="space-y-4">
+                                <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-100 via-white to-gray-300 bg-clip-text text-transparent">
+                                  {experience.company}
+                                </h3>
+                                <p className="text-base text-purple-400">{experience.role}</p>
+                                <p className="text-xs text-white/60">{experience.duration}</p>
+                                <p className="text-white/80 text-sm leading-relaxed px-2">{experience.description}</p>
+                                
+                                <div className="flex flex-wrap justify-center gap-2 pt-2">
+                                  {experience.tags.slice(0, 3).map((tag, tagIndex) => (
+                                    <span key={tagIndex} className="px-3 py-1 bg-white/10 rounded-full text-xs text-white/80 border border-white/5">
+                                      {tag}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="flex-1 pt-2">
-                          <h3 className="text-xl font-semibold text-white mb-1 group-hover:text-gray-200 transition-colors">
-                            {item.title}
-                          </h3>
-                          <p className="text-white/70 leading-relaxed">{item.subtitle}</p>
-                        </div>
-                      </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Dot Navigation */}
+                  <div className="flex justify-center items-center mt-8 space-x-2">
+                    {experiences.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentExperience(index)}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                          currentExperience === index 
+                            ? "bg-white shadow-lg" 
+                            : "bg-white/30 hover:bg-white/50"
+                        }`}
+                      />
                     ))}
                   </div>
                 </div>
-              ))}
+              )}
+              
+              {/* Other Sections with Original Layout */}
+              {Object.entries(categories).map(([key, category]) => {
+                if (key === "experience") return null;
+                return (
+                  <div
+                    key={key}
+                    className={`absolute inset-0 transition-all duration-500 ${
+                      activeTab === key ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+                    }`}
+                  >
+                    <div className="space-y-6">
+                      {category.items.map((item, index) => (
+                        <div key={index} className="flex items-start gap-6 group">
+                          <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-white/20 to-gray-300/15 border border-white/15 flex items-center justify-center text-sm font-medium text-white/90 shadow-lg backdrop-blur-sm">
+                            {item.year}
+                          </div>
+                          <div className="flex-1 pt-2">
+                            <div className="flex items-center gap-3 mb-1">
+                              <h3 className="text-xl font-semibold text-white group-hover:text-gray-200 transition-colors">
+                                {item.title}
+                              </h3>
+                              {item.logo && (
+                                <div className="company-logo-container flex-shrink-0 w-6 h-6 rounded-md bg-white/5 backdrop-blur-sm border border-white/10 p-1 group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-300 shadow-sm">
+                                  <Image
+                                    src={item.logo}
+                                    alt={`${item.title} logo`}
+                                    width={16}
+                                    height={16}
+                                    className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                                  />
+                                </div>
+                              )}
+                            </div>
+                            <p className="text-white/70 leading-relaxed">{item.subtitle}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
           <div className="lg:col-span-3">
-            <Card className="bg-white/10 backdrop-blur-md border-white/15 p-6 sticky top-24 shadow-2xl">
-              <h3 className="text-xl font-semibold mb-6 text-white tracking-tight">Skills & Technologies</h3>
-              <div className="space-y-3">
+            <Card className="bg-white/10 backdrop-blur-md border-white/15 p-4 sticky top-24 shadow-2xl">
+              <h3 className="text-lg font-semibold mb-4 text-white tracking-tight">Skills & Technologies</h3>
+              <div className="grid grid-cols-2 gap-2">
                 {skills.map((skill, index) => (
                   <div
                     key={index}
-                    className="bg-white/5 backdrop-blur-sm rounded-lg p-3 text-center text-white/90 hover:bg-white/10 hover:text-white transition-all duration-300 text-sm border border-white/5 shadow-sm"
+                    className="bg-white/5 backdrop-blur-sm rounded-lg p-2 text-center text-white/90 hover:bg-white/10 hover:text-white transition-all duration-300 text-xs border border-white/5 shadow-sm"
                   >
                     {skill}
                   </div>
