@@ -1,57 +1,118 @@
+"use client"
+
+import { useState } from "react"
 import { Card } from "@/components/ui/card"
 
 export default function AboutSection() {
+  const [activeTab, setActiveTab] = useState("education")
+
+  const categories = {
+    education: {
+      title: "Education",
+      items: [
+        { year: "2023", title: "Computer Science Degree", subtitle: "University of Technology" },
+        { year: "2021", title: "Web Development Bootcamp", subtitle: "Tech Academy" },
+      ],
+    },
+    location: {
+      title: "Location",
+      items: [
+        { year: "Current", title: "San Francisco, CA", subtitle: "Based in the heart of tech innovation" },
+        { year: "2020", title: "New York, NY", subtitle: "Previously worked remotely" },
+      ],
+    },
+    interests: {
+      title: "Personal Interests",
+      items: [
+        { year: "Always", title: "Generative Art", subtitle: "Creating algorithmic visual experiences" },
+        { year: "Hobby", title: "Photography", subtitle: "Capturing moments and compositions" },
+      ],
+    },
+    learning: {
+      title: "Currently Learning",
+      items: [
+        { year: "2024", title: "AI/ML Integration", subtitle: "Exploring AI-powered web experiences" },
+        { year: "2024", title: "Advanced WebGL", subtitle: "Pushing 3D graphics boundaries" },
+      ],
+    },
+    experience: {
+      title: "Previously Interned At",
+      items: [
+        { year: "2023", title: "Meta", subtitle: "Frontend Engineering Intern" },
+        { year: "2022", title: "Google", subtitle: "UX Engineering Intern" },
+      ],
+    },
+  }
+
   const skills = ["React & Next.js", "Three.js & WebGL", "TypeScript", "Node.js", "UI/UX Design", "Creative Coding"]
 
   return (
     <section id="about" className="min-h-screen flex items-center py-20">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white">About Me</h2>
-            <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-              I'm a creative developer passionate about pushing the boundaries of web technology. With expertise in
-              modern frameworks and a keen eye for design, I create immersive digital experiences that captivate and
-              engage users.
-            </p>
-            <p className="text-lg text-gray-300 leading-relaxed">
-              When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or
-              experimenting with generative art and interactive installations.
-            </p>
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="text-4xl md:text-6xl font-bold mb-12 text-white text-center">About Me</h2>
+
+        <div className="grid lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-3">
+            <div className="sticky top-24 space-y-2">
+              {Object.entries(categories).map(([key, category]) => (
+                <button
+                  key={key}
+                  onClick={() => setActiveTab(key)}
+                  className={`w-full text-left px-6 py-4 rounded-xl transition-all duration-300 ${
+                    activeTab === key
+                      ? "bg-gradient-to-r from-purple-500/20 to-blue-500/20 text-white border border-purple-500/30"
+                      : "text-white/60 hover:text-white/80 hover:bg-white/5"
+                  }`}
+                >
+                  <div className="font-medium">{category.title}</div>
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="space-y-8">
-            {/* Professional Photo */}
-            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-8 shadow-2xl border-0">
-              <div className="flex flex-col items-center text-center">
-                <div className="relative mb-8">
-                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 overflow-hidden shadow-2xl">
-                    {/* Replace this placeholder with your actual photo */}
-                    <img 
-                      src="/api/placeholder/160/160" 
-                      alt="Andy Zhou" 
-                      className="w-full h-full object-cover"
-                    />
+
+          <div className="lg:col-span-6">
+            <div className="min-h-[400px] relative">
+              {Object.entries(categories).map(([key, category]) => (
+                <div
+                  key={key}
+                  className={`absolute inset-0 transition-all duration-500 ${
+                    activeTab === key ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+                  }`}
+                >
+                  <div className="space-y-6">
+                    {category.items.map((item, index) => (
+                      <div key={index} className="flex items-start gap-6 group">
+                        <div className="flex-shrink-0 w-16 h-16 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center text-sm font-medium text-white/80">
+                          {item.year}
+                        </div>
+                        <div className="flex-1 pt-2">
+                          <h3 className="text-xl font-semibold text-white mb-1 group-hover:text-purple-300 transition-colors">
+                            {item.title}
+                          </h3>
+                          <p className="text-white/60 leading-relaxed">{item.subtitle}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <h3 className="text-2xl font-semibold text-white mb-3 tracking-tight">Andy Zhou</h3>
-                <p className="text-gray-200 text-base">Software Engineer</p>
-              </div>
+              ))}
             </div>
-            
-            {/* Skills Section */}
-            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-10 shadow-2xl border-0">
-              <h3 className="text-2xl font-semibold mb-8 text-white tracking-tight">Skills & Technologies</h3>
-              <div className="grid grid-cols-2 gap-5">
+          </div>
+
+          <div className="lg:col-span-3">
+            <Card className="bg-card/50 backdrop-blur-sm border-white/10 p-6 sticky top-24">
+              <h3 className="text-xl font-bold mb-6 text-white">Skills & Technologies</h3>
+              <div className="space-y-3">
                 {skills.map((skill, index) => (
                   <div
                     key={index}
-                    className="bg-white/5 backdrop-blur-sm rounded-xl py-4 px-6 text-center text-white/90 hover:bg-white/10 hover:text-white transition-all duration-300 shadow-lg border-0"
+                    className="bg-white/5 rounded-lg p-3 text-center text-white hover:bg-white/10 transition-colors duration-300 text-sm"
                   >
                     {skill}
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </div>
