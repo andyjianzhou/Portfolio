@@ -279,6 +279,62 @@
   }
 }
 
+/* Contact section text with breathing glow backlight */
+.contact-text-gradient {
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(200, 200, 200, 0.35) 25%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(180, 180, 180, 0.3) 75%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 300% 300%;
+  animation: gradient-shift 7s ease-in-out infinite;
+  filter: contrast(1.2) brightness(1.1);
+  position: relative;
+}
+
+.contact-text-gradient::before {
+  content: "Something Amazing";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: transparent;
+  z-index: -1;
+  animation: breathing-glow 3s ease-in-out infinite alternate;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(255, 255, 255, 0.6),
+    0 0 30px rgba(255, 255, 255, 0.4),
+    0 0 40px rgba(255, 255, 255, 0.2);
+  filter: blur(2px);
+  
+  /* Inherit all text properties */
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  text-transform: inherit;
+  word-spacing: inherit;
+}
+
+@keyframes breathing-glow {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
 /* Massive hero text styles */
 .hero-massive-text {
   position: absolute;
