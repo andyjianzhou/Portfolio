@@ -113,7 +113,7 @@ export default function Navigation() {
                   buttonRefs.current[index] = el
                 }}
                 onClick={() => scrollToSection(section)}
-                className={`relative z-10 px-3 py-2 transition-all duration-300 capitalize font-medium hover:scale-105 ${
+                className={`relative z-10 px-3 py-2 transition-all duration-300 capitalize font-sans font-medium tracking-wide hover:scale-105 ${
                   activeSection === section 
                     ? "text-black" 
                     : "text-black/60 hover:text-black/80"
@@ -227,7 +227,7 @@ export default function Navigation() {
                       ? 'bg-white shadow-lg shadow-white/50' 
                       : 'bg-white/30 group-hover:bg-white/60'
                   }`} />
-                  <span className="text-xl font-medium capitalize tracking-wide">
+                  <span className="text-xl font-sans font-medium capitalize tracking-wide">
                     {section}
                   </span>
                 </div>
@@ -239,7 +239,7 @@ export default function Navigation() {
           <div className="mt-12 pt-8 border-t border-white/10">
             <div className="text-white/40 text-sm text-center">
               <p className="font-mono tracking-widest">ANDY ZHOU</p>
-              <p className="mt-2 text-xs">Software Developer</p>
+              <p className="mt-2 text-xs font-sans">Software Developer</p>
             </div>
           </div>
         </div>

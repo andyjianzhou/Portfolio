@@ -179,76 +179,149 @@ export default function AboutSection() {
             <div className="min-h-[400px] relative">
               {/* Experience Section with Timeline */}
               {activeTab === "experience" && (
-                <div id="experience-timeline" className="relative min-h-[200vh]">
-                  {/* Static timeline base line */}
-                  <div
-                    className="absolute left-8 top-0 w-1 bg-gradient-to-b from-white/20 via-gray-400/30 to-white/10 opacity-40"
-                    style={{ height: "100%" }}
-                  ></div>
+                <div id="experience-timeline" className="relative">
+                  {/* Desktop Timeline, mobile is static */}
+                  <div className="hidden lg:block min-h-[200vh]">
+                    {/* Static timeline base line */}
+                    <div
+                      className="absolute left-8 top-0 w-1 bg-gradient-to-b from-white/20 via-gray-400/30 to-white/10 opacity-40"
+                      style={{ height: "100%" }}
+                    ></div>
 
-                  {/* Animated progress line with aggressive silver gradient */}
-                  <div
-                    className="absolute left-8 top-0 w-1 bg-gradient-to-b from-white via-gray-200 to-gray-400 transition-all duration-500 shadow-2xl timeline-glow"
-                    style={{ 
-                      height: `${scrollProgress * 100}%`,
-                      filter: 'brightness(1.2) contrast(1.1)',
-                      boxShadow: '0 0 20px rgba(255,255,255,0.4), 0 0 40px rgba(200,200,200,0.2)'
-                    }}
-                  ></div>
+                    {/* Animated progress line with aggressive silver gradient */}
+                    <div
+                      className="absolute left-8 top-0 w-1 bg-gradient-to-b from-white via-gray-200 to-gray-400 transition-all duration-500 shadow-2xl timeline-glow"
+                      style={{ 
+                        height: `${scrollProgress * 100}%`,
+                        filter: 'brightness(1.2) contrast(1.1)',
+                        boxShadow: '0 0 20px rgba(255,255,255,0.4), 0 0 40px rgba(200,200,200,0.2)'
+                      }}
+                    ></div>
 
-                  <div className="space-y-32 pt-16">
-                    {experiences.map((exp, index) => (
-                      <div
-                        key={index}
-                        className="relative flex items-start space-x-8 opacity-0 translate-y-8 animate-fade-in-up"
-                        style={{
-                          animationDelay: `${index * 0.2}s`,
-                          animationFillMode: "forwards",
-                        }}
-                      >
-                        {/* Timeline dot with logo */}
-                        <div className="relative z-10 flex-shrink-0">
-                          <div className="w-16 h-16 bg-gradient-to-br from-gray-100/20 via-white/15 to-gray-300/20 backdrop-blur-md rounded-full border-4 border-white/30 shadow-2xl flex items-center justify-center timeline-dot-glow">
-                            <Image
-                              src={exp.logo}
-                              alt={`${exp.company} logo`}
-                              width={24}
-                              height={24}
-                              className="object-contain opacity-90 filter brightness-110 contrast-110"
-                            />
-                          </div>
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex-1 pb-16">
-                          <div className="mb-4">
-                            <span className="inline-block bg-gradient-to-r from-white via-gray-200 to-white text-black px-4 py-2 rounded-full text-sm font-semibold mb-4 shadow-lg border border-white/20 apple-badge">
-                              {exp.year}
-                            </span>
+                    <div className="space-y-32 pt-16">
+                      {experiences.map((exp, index) => (
+                        <div
+                          key={index}
+                          className="relative flex items-start space-x-8 opacity-0 translate-y-8 animate-fade-in-up"
+                          style={{
+                            animationDelay: `${index * 0.2}s`,
+                            animationFillMode: "forwards",
+                          }}
+                        >
+                          {/* Timeline dot with logo */}
+                          <div className="relative z-10 flex-shrink-0">
+                            <div className="w-16 h-16 bg-gradient-to-br from-gray-100/20 via-white/15 to-gray-300/20 backdrop-blur-md rounded-full border-4 border-white/30 shadow-2xl flex items-center justify-center timeline-dot-glow">
+                              <Image
+                                src={exp.logo}
+                                alt={`${exp.company} logo`}
+                                width={24}
+                                height={24}
+                                className="object-contain opacity-90 filter brightness-110 contrast-110"
+                              />
+                            </div>
                           </div>
 
-                          <div className="relative">
-                            <div className="bg-gradient-to-br from-gray-900/80 via-black/60 to-gray-800/70 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl card-glow border-backlight">
-                              <h4 className="text-3xl font-sans font-medium text-white timeline-shimmer mb-3 drop-shadow-[0_0_20px_rgba(255,255,255,0.8)]">{exp.company}</h4>
-                              <p className="text-xl text-white/90 mb-3 font-serif italic tracking-wide drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]">{exp.role}</p>
-                              <p className="text-white/70 mb-6 text-sm font-mono">{exp.duration}</p>
-                              <p className="text-white/80 mb-8 leading-relaxed max-w-3xl text-lg font-sans">{exp.description}</p>
+                          {/* Content */}
+                          <div className="flex-1 pb-16">
+                            <div className="mb-4">
+                              <span className="inline-block bg-gradient-to-r from-white via-gray-200 to-white text-black px-4 py-2 rounded-full text-sm font-semibold mb-4 shadow-lg border border-white/20 apple-badge">
+                                {exp.year}
+                              </span>
+                            </div>
 
-                              <div className="flex flex-wrap gap-3">
-                                {exp.tags.map((tag, tagIndex) => (
-                                  <span
-                                    key={tagIndex}
-                                    className="bg-secondary/80 text-secondary-foreground px-4 py-2 rounded-full text-sm hover:bg-secondary transition-all duration-300 border border-border/50 shadow-sm backdrop-blur-sm"
-                                  >
-                                    {tag}
-                                  </span>
-                                ))}
+                            <div className="relative">
+                              <div className="bg-gradient-to-br from-gray-900/80 via-black/60 to-gray-800/70 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl card-glow border-backlight">
+                                <h4 className="text-3xl font-sans font-medium text-white timeline-shimmer mb-3 drop-shadow-[0_0_20px_rgba(255,255,255,0.8)]">{exp.company}</h4>
+                                <p className="text-xl text-white/90 mb-3 font-serif italic tracking-wide drop-shadow-[0_0_15px_rgba(255,255,255,0.6)]">{exp.role}</p>
+                                <p className="text-white/70 mb-6 text-sm font-mono">{exp.duration}</p>
+                                <p className="text-white/80 mb-8 leading-relaxed max-w-3xl text-lg font-sans">{exp.description}</p>
+
+                                <div className="flex flex-wrap gap-3">
+                                  {exp.tags.map((tag, tagIndex) => (
+                                    <span
+                                      key={tagIndex}
+                                      className="bg-secondary/80 text-secondary-foreground px-4 py-2 rounded-full text-sm hover:bg-secondary transition-all duration-300 border border-border/50 shadow-sm backdrop-blur-sm"
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))}
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Mobile Timeline - Elegant & Compact */}
+                  <div className="lg:hidden relative">
+                    {/* Mobile timeline line - left positioned */}
+                    <div className="absolute left-6 top-0 w-0.5 bg-gradient-to-b from-white/30 via-white/20 to-white/10 h-full"></div>
+                    
+                    <div className="space-y-8 pt-4">
+                      {experiences.map((exp, index) => (
+                        <div
+                          key={index}
+                          className="relative flex items-start gap-4 opacity-0 translate-y-4 animate-fade-in-up"
+                          style={{
+                            animationDelay: `${index * 0.15}s`,
+                            animationFillMode: "forwards",
+                          }}
+                        >
+                          {/* Timeline dot - smaller for mobile */}
+                          <div className="relative z-10 flex-shrink-0 mt-1">
+                            <div className="w-12 h-12 bg-gradient-to-br from-white/20 via-white/15 to-gray-300/20 backdrop-blur-md rounded-full border-2 border-white/30 shadow-lg flex items-center justify-center">
+                              <Image
+                                src={exp.logo}
+                                alt={`${exp.company} logo`}
+                                width={16}
+                                height={16}
+                                className="object-contain opacity-90"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Compact content card */}
+                          <div className="flex-1 min-w-0">
+                            {/* Year badge - smaller */}
+                            <span className="inline-block bg-gradient-to-r from-white/90 to-gray-200/90 text-black px-3 py-1 rounded-full text-xs font-semibold mb-3 shadow-md">
+                              {exp.year}
+                            </span>
+
+                            {/* Compact card */}
+                            <div className="bg-gradient-to-br from-gray-900/90 via-black/70 to-gray-800/80 backdrop-blur-md rounded-xl p-5 border border-white/15 shadow-xl">
+                              {/* Header */}
+                              <div className="mb-3">
+                                <h4 className="text-lg font-sans font-medium text-white mb-1 leading-tight">{exp.company}</h4>
+                                <p className="text-sm text-white/90 font-serif italic mb-1">{exp.role}</p>
+                                <p className="text-white/60 text-xs font-mono">{exp.duration}</p>
+                              </div>
+
+                              {/* Description - shorter for mobile */}
+                              <p className="text-white/80 text-sm leading-relaxed mb-4 font-sans">{exp.description}</p>
+
+                              {/* Tags - more compact */}
+                              <div className="flex flex-wrap gap-2">
+                                {exp.tags.slice(0, 3).map((tag, tagIndex) => (
+                                  <span
+                                    key={tagIndex}
+                                    className="bg-white/10 text-white/90 px-2 py-1 rounded-md text-xs font-medium border border-white/10"
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                                {exp.tags.length > 3 && (
+                                  <span className="text-white/50 text-xs px-2 py-1">
+                                    +{exp.tags.length - 3} more
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}

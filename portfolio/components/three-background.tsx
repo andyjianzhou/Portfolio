@@ -265,15 +265,135 @@ function LiquidBlob() {
   return <mesh ref={meshRef} geometry={geometry} material={material} position={[0, 0, 0]} />
 }
 
+// Mobile-friendly CSS-only blob alternative
+function MobileBlobAlternative() {
+  return (
+    <div className="fixed inset-0 -z-10 flex items-center justify-center">
+      {/* Animated CSS blob with gradient */}
+      <div className="mobile-liquid-blob relative w-96 h-96 rounded-full opacity-85">
+        {/* Main blob shape */}
+        <div className="absolute inset-0 bg-gradient-radial from-gray-200 via-gray-400 to-gray-600 rounded-full animate-blob-pulse" />
+        
+        {/* Additional morphing layers for liquid effect */}
+        <div className="absolute inset-4 bg-gradient-radial from-white/30 to-transparent rounded-full animate-blob-morph delay-200" />
+        <div className="absolute inset-8 bg-gradient-radial from-gray-300/40 to-transparent rounded-full animate-blob-float delay-700" />
+        
+        {/* Floating particles around the blob */}
+        <div className="absolute -inset-32">
+          {[...Array(8)].map((_, i) => (
+            <div 
+              key={i}
+              className="absolute w-2 h-2 bg-white/20 rounded-full animate-float-particle"
+              style={{
+                left: `${20 + i * 10}%`,
+                top: `${15 + (i % 3) * 25}%`,
+                animationDelay: `${i * 0.5}s`,
+                animationDuration: `${4 + i * 0.3}s`
+              }}
+            />
+          ))}
+        </div>
+      </div>
+      
+      {/* CSS Animations */}
+      <style jsx>{`
+        @keyframes blob-pulse {
+          0%, 100% { 
+            transform: scale(1) rotate(0deg);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+          }
+          25% { 
+            transform: scale(1.05) rotate(5deg);
+            border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+          }
+          50% { 
+            transform: scale(0.98) rotate(-3deg);
+            border-radius: 50% 60% 30% 60% / 60% 40% 60% 40%;
+          }
+          75% { 
+            transform: scale(1.02) rotate(2deg);
+            border-radius: 60% 40% 60% 30% / 40% 70% 40% 70%;
+          }
+        }
+        
+        @keyframes blob-morph {
+          0%, 100% {
+            transform: scale(1.1) rotate(10deg);
+            border-radius: 40% 60% 60% 40% / 60% 40% 40% 60%;
+          }
+          50% {
+            transform: scale(0.9) rotate(-8deg);
+            border-radius: 60% 40% 30% 70% / 40% 60% 70% 30%;
+          }
+        }
+        
+        @keyframes blob-float {
+          0%, 100% {
+            transform: translateY(0px) scale(0.8);
+            border-radius: 70% 30% 40% 60% / 30% 70% 60% 40%;
+          }
+          50% {
+            transform: translateY(-10px) scale(1.1);
+            border-radius: 40% 70% 60% 30% / 70% 30% 40% 60%;
+          }
+        }
+        
+        @keyframes float-particle {
+          0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+            opacity: 0.3;
+          }
+          50% {
+            transform: translateY(-20px) rotate(180deg);
+            opacity: 0.8;
+          }
+        }
+        
+        .animate-blob-pulse {
+          animation: blob-pulse 6s ease-in-out infinite;
+        }
+        
+        .animate-blob-morph {
+          animation: blob-morph 8s ease-in-out infinite;
+        }
+        
+        .animate-blob-float {
+          animation: blob-float 5s ease-in-out infinite;
+        }
+        
+        .animate-float-particle {
+          animation: float-particle 4s ease-in-out infinite;
+        }
+        
+        .bg-gradient-radial {
+          background: radial-gradient(circle at center, var(--tw-gradient-stops));
+        }
+        
+        .mobile-liquid-blob {
+          filter: blur(1px) brightness(1.1);
+        }
+      `}</style>
+    </div>
+  )
+}
+
 export default function ThreeBackground() {
   return (
-    <div className="fixed inset-0 -z-10">
-      <Canvas camera={{ position: [0, 0, 8], fov: 60 }} style={{ background: "transparent" }}>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} color="#b0b0b0" />
-        <LiquidBlob />
-      </Canvas>
-    </div>
+    <>
+      {/* Desktop: Full Three.js blob */}
+      <div className="hidden md:block fixed inset-0 -z-10">
+        <Canvas camera={{ position: [0, 0, 8], fov: 60 }} style={{ background: "transparent" }}>
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} intensity={1} />
+          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#b0b0b0" />
+          <LiquidBlob />
+        </Canvas>
+      </div>
+      
+      {/* Mobile: Lightweight CSS alternative */}
+      <div className="md:hidden">
+        <MobileBlobAlternative />
+      </div>
+    </>
   )
 }
