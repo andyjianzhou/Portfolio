@@ -346,6 +346,8 @@
   transform: translate(-50%, -50%);
   white-space: nowrap;
   z-index: 1;
+  width: 100vw;
+  overflow: hidden;
 }
 
 .hero-text-line {
@@ -359,6 +361,7 @@
   text-transform: uppercase;
   user-select: none;
   pointer-events: none;
+  width: 100%;
 }
 
 .hero-text-gradient {
@@ -512,15 +515,46 @@
 }
 
 @media (max-width: 768px) {
+  .hero-massive-text {
+    width: 100vw;
+    overflow: visible;
+  }
+  
   .hero-text-line {
-    font-size: clamp(4rem, 15vw, 16rem);
-    letter-spacing: -0.03em;
+    font-size: clamp(5rem, 22vw, 18rem);
+    letter-spacing: -0.04em;
+    line-height: 0.8;
+    white-space: nowrap;
+    transform: scale(1.1);
   }
 }
 
 @media (max-width: 480px) {
+  .hero-massive-text {
+    width: 120vw;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  
   .hero-text-line {
-    font-size: clamp(3rem, 12vw, 12rem);
+    font-size: clamp(4rem, 25vw, 14rem);
+    letter-spacing: -0.02em;
+    line-height: 0.75;
+    transform: scale(1.2);
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 320px) {
+  .hero-massive-text {
+    width: 140vw;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  
+  .hero-text-line {
+    font-size: clamp(3.5rem, 28vw, 12rem);
+    letter-spacing: -0.01em;
+    transform: scale(1.3);
   }
 }
 
@@ -531,6 +565,188 @@
 .scroll-text {
   animation: scroll-left 30s linear infinite;
   animation-delay: -15s;
+}
+
+/* Mobile Hero Text - Creative Vertical Design */
+.mobile-hero-text-container {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 4vw, 2.5rem);
+  perspective: 1000px;
+}
+
+.mobile-hero-word {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.mobile-hero-letter {
+  font-size: clamp(3.5rem, 12vw, 8rem);
+  font-weight: 900;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.03);
+  font-family: system-ui, -apple-system, sans-serif;
+  text-transform: uppercase;
+  display: inline-block;
+  position: relative;
+  margin: 0 -0.02em;
+  transform-origin: center bottom;
+  animation: mobile-letter-float 8s ease-in-out infinite;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* Staggered animation delays for letters */
+.mobile-hero-word-1 .mobile-hero-letter:nth-child(1) { animation-delay: 0.1s; }
+.mobile-hero-word-1 .mobile-hero-letter:nth-child(2) { animation-delay: 0.2s; }
+.mobile-hero-word-1 .mobile-hero-letter:nth-child(3) { animation-delay: 0.3s; }
+.mobile-hero-word-1 .mobile-hero-letter:nth-child(4) { animation-delay: 0.4s; }
+.mobile-hero-word-1 .mobile-hero-letter:nth-child(5) { animation-delay: 0.5s; }
+.mobile-hero-word-1 .mobile-hero-letter:nth-child(6) { animation-delay: 0.6s; }
+.mobile-hero-word-1 .mobile-hero-letter:nth-child(7) { animation-delay: 0.7s; }
+.mobile-hero-word-1 .mobile-hero-letter:nth-child(8) { animation-delay: 0.8s; }
+
+.mobile-hero-word-2 .mobile-hero-letter:nth-child(1) { animation-delay: 1.1s; }
+.mobile-hero-word-2 .mobile-hero-letter:nth-child(2) { animation-delay: 1.2s; }
+.mobile-hero-word-2 .mobile-hero-letter:nth-child(3) { animation-delay: 1.3s; }
+.mobile-hero-word-2 .mobile-hero-letter:nth-child(4) { animation-delay: 1.4s; }
+.mobile-hero-word-2 .mobile-hero-letter:nth-child(5) { animation-delay: 1.5s; }
+.mobile-hero-word-2 .mobile-hero-letter:nth-child(6) { animation-delay: 1.6s; }
+.mobile-hero-word-2 .mobile-hero-letter:nth-child(7) { animation-delay: 1.7s; }
+.mobile-hero-word-2 .mobile-hero-letter:nth-child(8) { animation-delay: 1.8s; }
+
+.mobile-hero-word-3 .mobile-hero-letter:nth-child(1) { animation-delay: 2.1s; }
+.mobile-hero-word-3 .mobile-hero-letter:nth-child(2) { animation-delay: 2.2s; }
+.mobile-hero-word-3 .mobile-hero-letter:nth-child(3) { animation-delay: 2.3s; }
+.mobile-hero-word-3 .mobile-hero-letter:nth-child(4) { animation-delay: 2.4s; }
+.mobile-hero-word-3 .mobile-hero-letter:nth-child(5) { animation-delay: 2.5s; }
+.mobile-hero-word-3 .mobile-hero-letter:nth-child(6) { animation-delay: 2.6s; }
+.mobile-hero-word-3 .mobile-hero-letter:nth-child(7) { animation-delay: 2.7s; }
+.mobile-hero-word-3 .mobile-hero-letter:nth-child(8) { animation-delay: 2.8s; }
+.mobile-hero-word-3 .mobile-hero-letter:nth-child(9) { animation-delay: 2.9s; }
+
+/* Different effects for each word */
+.mobile-hero-word-1 .mobile-hero-letter {
+  color: rgba(255, 255, 255, 0.04);
+  filter: contrast(1.1);
+}
+
+.mobile-hero-word-2 .mobile-hero-letter {
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(200, 200, 200, 0.06) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(180, 180, 180, 0.05) 75%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 300% 300%;
+  animation: mobile-letter-float 8s ease-in-out infinite, gradient-shift 6s ease-in-out infinite;
+  filter: contrast(1.2);
+}
+
+.mobile-hero-word-3 .mobile-hero-letter {
+  color: rgba(255, 255, 255, 0.05);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  filter: brightness(1.1);
+}
+
+/* Creative floating animation with 3D transforms */
+@keyframes mobile-letter-float {
+  0%, 100% {
+    transform: translateY(0) rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1);
+    opacity: 1;
+  }
+  15% {
+    transform: translateY(-8px) rotateX(5deg) rotateY(-2deg) translateZ(10px) scale(1.02);
+    opacity: 0.9;
+  }
+  30% {
+    transform: translateY(-12px) rotateX(-3deg) rotateY(4deg) translateZ(15px) scale(0.98);
+    opacity: 0.8;
+  }
+  45% {
+    transform: translateY(-6px) rotateX(7deg) rotateY(-3deg) translateZ(8px) scale(1.01);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translateY(-15px) rotateX(-2deg) rotateY(5deg) translateZ(20px) scale(0.97);
+    opacity: 0.7;
+  }
+  75% {
+    transform: translateY(-4px) rotateX(4deg) rotateY(-1deg) translateZ(12px) scale(1.03);
+    opacity: 0.85;
+  }
+}
+
+/* Add subtle glow effect on mobile letters */
+.mobile-hero-letter::after {
+  content: attr(data-letter);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.02);
+  z-index: -1;
+  filter: blur(8px);
+  transform: scale(1.1);
+  animation: mobile-glow-pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes mobile-glow-pulse {
+  0% {
+    opacity: 0.3;
+    transform: scale(1.1);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(1.2);
+    filter: blur(12px);
+  }
+}
+
+/* Mobile word container animations */
+.mobile-hero-word-1 {
+  animation: mobile-word-entrance 2s ease-out 0.5s both;
+}
+
+.mobile-hero-word-2 {
+  animation: mobile-word-entrance 2s ease-out 1s both;
+}
+
+.mobile-hero-word-3 {
+  animation: mobile-word-entrance 2s ease-out 1.5s both;
+}
+
+@keyframes mobile-word-entrance {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) rotateX(-15deg);
+    filter: blur(10px);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateY(-10px) rotateX(5deg);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+    filter: blur(0px);
+  }
 }
 
 .animate-scroll-left {

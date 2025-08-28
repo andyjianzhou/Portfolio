@@ -42,12 +42,49 @@ export default function HeroSection() {
 
   return (
     <section ref={sectionRef} id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Massive background text that fills the entire screen */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+      {/* Desktop: Horizontal massive text */}
+      <div className="absolute inset-0 hidden md:flex items-center justify-center pointer-events-none overflow-hidden">
         <div className="hero-massive-text select-none">
           <div className="hero-text-line">BUILDING</div>
           <div className="hero-text-line hero-text-gradient">SCALABLE</div>
           <div className="hero-text-line">SOLUTIONS</div>
+        </div>
+      </div>
+
+      {/* Mobile: Creative vertical design */}
+      <div className="absolute inset-0 md:hidden flex items-center justify-center pointer-events-none overflow-hidden">
+        <div className="mobile-hero-text-container select-none">
+          <div className="mobile-hero-word mobile-hero-word-1" data-word="BUILDING">
+            <span className="mobile-hero-letter">B</span>
+            <span className="mobile-hero-letter">U</span>
+            <span className="mobile-hero-letter">I</span>
+            <span className="mobile-hero-letter">L</span>
+            <span className="mobile-hero-letter">D</span>
+            <span className="mobile-hero-letter">I</span>
+            <span className="mobile-hero-letter">N</span>
+            <span className="mobile-hero-letter">G</span>
+          </div>
+          <div className="mobile-hero-word mobile-hero-word-2" data-word="SCALABLE">
+            <span className="mobile-hero-letter">S</span>
+            <span className="mobile-hero-letter">C</span>
+            <span className="mobile-hero-letter">A</span>
+            <span className="mobile-hero-letter">L</span>
+            <span className="mobile-hero-letter">A</span>
+            <span className="mobile-hero-letter">B</span>
+            <span className="mobile-hero-letter">L</span>
+            <span className="mobile-hero-letter">E</span>
+          </div>
+          <div className="mobile-hero-word mobile-hero-word-3" data-word="SOLUTIONS">
+            <span className="mobile-hero-letter">S</span>
+            <span className="mobile-hero-letter">O</span>
+            <span className="mobile-hero-letter">L</span>
+            <span className="mobile-hero-letter">U</span>
+            <span className="mobile-hero-letter">T</span>
+            <span className="mobile-hero-letter">I</span>
+            <span className="mobile-hero-letter">O</span>
+            <span className="mobile-hero-letter">N</span>
+            <span className="mobile-hero-letter">S</span>
+          </div>
         </div>
       </div>
 
