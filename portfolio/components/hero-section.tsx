@@ -43,18 +43,20 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section ref={sectionRef} id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden grain-texture-global">
       {/* Desktop: Horizontal massive text - behind slime ball */}
       <div className="absolute inset-0 hidden md:flex items-center justify-center pointer-events-none overflow-hidden -z-12">
-        <HeroMorphingText 
-          textPairs={[
-            { english: 'BUILDING', chinese: '构建' },
-            { english: 'SCALABLE', chinese: '可扩展' },
-            { english: 'SOLUTIONS', chinese: '解决方案' }
-          ]}
-          cycleDuration={12000}
-          initialDelay={700}
-        />
+        <div className="hero-massive-text select-none">
+          <div className="hero-text-line hero-text-gradient">
+            BUILDING
+          </div>
+          <div className="hero-text-line">
+            SCALABLE
+          </div>
+          <div className="hero-text-line">
+            SOLUTIONS
+          </div>
+        </div>
       </div>
 
       {/* Mobile: Creative vertical design */}
@@ -111,7 +113,7 @@ export default function HeroSection() {
       {/* Scrolling text overlay - behind slime ball */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-15">
         <div className="scroll-text whitespace-nowrap text-6xl md:text-7xl font-serif font-light italic text-white select-none tracking-wide">
-          AWS CERTIFIED • SOFTWARE DEVELOPER • SYSTEM OPTIMIZATION • CLOUD ARCHITECTURE •
+          ML Enthusiast • Software Developer • System Design • Data Engineering •
         </div>
       </div>
 

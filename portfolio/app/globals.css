@@ -203,8 +203,8 @@
     position: relative;
   }
   
-  /* High-quality subtle grain texture overlay - stays behind all content */
-  body::before {
+  /* Floating animated shapes behind content - Grayscale */
+    /* body::before {
     content: '';
     position: fixed;
     top: 0;
@@ -212,46 +212,87 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: -999;
-    opacity: 0.12;
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="100" width="100" viewBox="0 0 100 100"><defs><filter id="grainy"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="5"/><feComposite operator="multiply" in2="SourceGraphic"/></filter></defs><rect width="100%25" height="100%25" fill="%23ffffff" filter="url(%23grainy)"/></svg>');
-    background-size: 120px 120px;
-  }
-
-  /* Floating animated shapes behind content - Grayscale */
-  body::before {
+    z-index: -998;
     background: 
-      /* Shape 1 - Light Gray */
       radial-gradient(circle 60px at 15% 25%, oklch(0.7 0 0 / 0.15) 0%, transparent 70%),
-      /* Shape 2 - Medium Gray */
       radial-gradient(circle 50px at 85% 15%, oklch(0.5 0 0 / 0.12) 0%, transparent 70%),
-      /* Shape 3 - Silver */
       radial-gradient(circle 70px at 75% 80%, oklch(0.8 0 0 / 0.18) 0%, transparent 70%),
-      /* Shape 4 - Dark Gray */
       radial-gradient(circle 55px at 20% 75%, oklch(0.4 0 0 / 0.1) 0%, transparent 70%);
     animation: float-shapes 12s ease-in-out infinite;
-  }
+  } */
 
+  /* SUPER VISIBLE GRAIN TEXTURE OVERLAY */
   body::after {
     content: '';
     position: fixed;
-    top: 20%;
-    left: 10%;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, oklch(0.6 0 0 / 0.3) 0%, transparent 70%);
-    border-radius: 50%;
-    filter: blur(20px);
-    animation: float-shape-1 8s ease-in-out infinite;
-    z-index: -5;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -997;
+    opacity: 1;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 1px),
+      radial-gradient(circle at 80% 60%, rgba(255,255,255,0.08) 0%, transparent 1px),
+      radial-gradient(circle at 40% 80%, rgba(255,255,255,0.12) 0%, transparent 1px),
+      radial-gradient(circle at 90% 20%, rgba(255,255,255,0.09) 0%, transparent 1px),
+      radial-gradient(circle at 10% 70%, rgba(255,255,255,0.11) 0%, transparent 1px),
+      radial-gradient(circle at 60% 40%, rgba(255,255,255,0.07) 0%, transparent 1px),
+      radial-gradient(circle at 30% 10%, rgba(255,255,255,0.13) 0%, transparent 1px),
+      radial-gradient(circle at 70% 90%, rgba(255,255,255,0.08) 0%, transparent 1px);
+    background-size: 3px 3px, 4px 4px, 2px 2px, 5px 5px, 3px 3px, 4px 4px, 2px 2px, 3px 3px;
+    background-position: 0 0, 1px 1px, 2px 2px, 3px 3px, 4px 4px, 5px 5px, 6px 6px, 7px 7px;
+    mix-blend-mode: screen;
   }
 
-  /* Simple SVG grain texture */
-  body {
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="100" width="100" viewBox="0 0 100 100"><defs><filter id="grainy"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="5"/><feComposite operator="multiply" in2="SourceGraphic"/></filter></defs><rect width="100%25" height="100%25" fill="%23ffffff" filter="url(%23grainy)" opacity="0.12"/></svg>'),
-                      radial-gradient(ellipse at top, #1a1a1a 0%, #000000 100%);
-    background-size: 120px 120px, 100% 100%;
+  /* Global grain texture overlay - appears above papershading on all sections */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1; /* Above papershading but below content */
+    opacity: 0.15;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="100" width="100" viewBox="0 0 100 100"><defs><filter id="grainy"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="5"/><feComposite operator="multiply" in2="SourceGraphic"/></filter></defs><rect width="100%25" height="100%25" fill="%23ffffff" filter="url(%23grainy)"/></svg>');
+    background-size: 120px 120px;
+    mix-blend-mode: overlay;
   }
+}
+
+/* Add grain texture specifically to hero section */
+.hero-section-grain::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1; /* This puts it above the papershading background */
+  opacity: 0.12;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="100" width="100" viewBox="0 0 100 100"><defs><filter id="grainy"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="5"/><feComposite operator="multiply" in2="SourceGraphic"/></filter></defs><rect width="100%25" height="100%25" fill="%23ffffff" filter="url(%23grainy)"/></svg>');
+  background-size: 120px 120px;
+}
+
+/* Global grain texture overlay - fixed position, spans all sections */
+.grain-texture-global::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2; /* Higher than before to ensure visibility */
+  opacity: 0.4; /* Increased from 0.15 to 0.4 for much more visible grain */
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="100" width="100" viewBox="0 0 100 100"><defs><filter id="grainy"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="6" seed="5"/><feComposite operator="multiply" in2="SourceGraphic"/></filter></defs><rect width="100%25" height="100%25" fill="%23ffffff" filter="url(%23grainy)"/></svg>');
+  background-size: 80px 80px; /* Smaller size = more dense grain */
+  mix-blend-mode: overlay;
+  will-change: transform;
 }
 
 /* Main floating animation */

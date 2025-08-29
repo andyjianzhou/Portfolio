@@ -226,23 +226,34 @@ function LiquidBlob() {
       material.uniforms.uTime.value = state.clock.elapsedTime
       material.uniforms.uScrollY.value = window.scrollY || 0
 
-      // Smooth color transition based on current section
-      let targetTransition = 0
-      if (currentSection === 'about') {
-        targetTransition = 1 // Black
-      } else if (currentSection === 'transition') {
-        targetTransition = 0.5 // Mid-transition
-      } else {
-        targetTransition = 0 // Silver/Gray
+      // Continuous smooth color transition based on scroll position
+      const scrollY = window.scrollY || 0
+      const homeSection = document.getElementById('home')
+      const aboutSection = document.getElementById('about')
+      
+      if (homeSection && aboutSection) {
+        const homeHeight = homeSection.offsetHeight
+        const aboutTop = aboutSection.offsetTop
+        
+        // Calculate transition progress based on scroll position
+        const transitionStart = homeHeight * 0.5 // Start transition halfway through home section
+        const transitionEnd = aboutTop - 100 // Complete transition just before about section
+        
+        // Create smooth continuous transition value between 0 and 1
+        let targetTransition = 0
+        if (scrollY <= transitionStart) {
+          targetTransition = 0 // Silver/Gray
+        } else if (scrollY >= transitionEnd) {
+          targetTransition = 1 // Dark Gray
+        } else {
+          // Smooth interpolation between start and end points
+          const progress = (scrollY - transitionStart) / (transitionEnd - transitionStart)
+          targetTransition = Math.min(1, Math.max(0, progress)) // Clamp between 0 and 1
+        }
+        
+        // Apply the transition directly without lerping for immediate response
+        material.uniforms.uColorTransition.value = targetTransition
       }
-
-      // Smoothly interpolate to target color
-      const currentTransition = material.uniforms.uColorTransition.value
-      material.uniforms.uColorTransition.value = THREE.MathUtils.lerp(
-        currentTransition,
-        targetTransition,
-        0.05 // Smooth transition speed
-      )
 
       // Tumbling across the screen with scroll
       const scrollY = window.scrollY || 0
