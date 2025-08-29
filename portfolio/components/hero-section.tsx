@@ -143,7 +143,7 @@ export default function HeroSection() {
           <div className="hidden md:block">
             <p className="text-xl tracking-[0.3em]">
               <MorphingText 
-                englishText="A N D Y  Z H O U" 
+                englishText="A N D Y     Z H O U" 
                 chineseText="周 健 龙"
                 cycleDuration={8000}
                 initialDelay={500}
