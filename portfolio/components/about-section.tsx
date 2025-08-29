@@ -105,32 +105,26 @@ export default function AboutSection() {
     "Git & CI/CD"
   ]
 
-  // TEMPORARILY DISABLED FOR DEBUGGING
-  // useEffect(() => {
-  //   if (activeTab === "experience") {
-  //     const handleScroll = () => {
-  //       const section = document.getElementById("experience-timeline")
-  //       if (section) {
-  //         const rect = section.getBoundingClientRect()
-  //         const sectionHeight = section.offsetHeight
-  //         const viewportHeight = window.innerHeight
-  //         const scrolled = Math.max(0, viewportHeight - rect.top)
-  //         const progress = Math.min(scrolled / (sectionHeight + viewportHeight), 1)
-  //         setScrollProgress(progress)
-  //       }
-  //     }
+  // Timeline scroll progress animation
+  useEffect(() => {
+    if (activeTab === "experience") {
+      const handleScroll = () => {
+        const section = document.getElementById("experience-timeline")
+        if (section) {
+          const rect = section.getBoundingClientRect()
+          const sectionHeight = section.offsetHeight
+          const viewportHeight = window.innerHeight
+          const scrolled = Math.max(0, viewportHeight - rect.top)
+          const progress = Math.min(scrolled / (sectionHeight + viewportHeight), 1)
+          setScrollProgress(progress)
+        }
+      }
 
-  //     window.addEventListener("scroll", handleScroll)
-  //     handleScroll()
-  //     return () => window.removeEventListener("scroll", handleScroll)
-  //   } else {
-  //     // When switching away from experience, scroll back to About section
-  //     const aboutSection = document.getElementById("about")
-  //     if (aboutSection) {
-  //       aboutSection.scrollIntoView({ behavior: "smooth", block: "start" })
-  //     }
-  //   }
-  // }, [activeTab])
+      window.addEventListener("scroll", handleScroll, { passive: true })
+      handleScroll()
+      return () => window.removeEventListener("scroll", handleScroll)
+    }
+  }, [activeTab])
 
   return (
     <section id="about" className="min-h-screen flex items-center py-20">
