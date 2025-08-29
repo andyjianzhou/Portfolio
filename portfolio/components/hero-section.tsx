@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button"
 import { useEffect, useRef } from "react"
 import MorphingText from "./MorphingText"
-import HeroMorphingText from "./HeroMorphingText"
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)

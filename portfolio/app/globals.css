@@ -223,11 +223,21 @@
   height: 100vh;
   pointer-events: none;
   z-index: 2; /* Higher than before to ensure visibility */
-  opacity: 0.6; /* Increased from 0.4 to 0.6 for much stronger grain */
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="100" width="100" viewBox="0 0 100 100"><defs><filter id="grainy"><feTurbulence type="fractalNoise" baseFrequency="1.8" numOctaves="8" seed="5"/><feComposite operator="multiply" in2="SourceGraphic"/></filter></defs><rect width="100%25" height="100%25" fill="%23ffffff" filter="url(%23grainy)"/></svg>');
-  background-size: 60px 60px; /* Smaller size = much denser grain */
+  opacity: 0.35; /* Reduced from 0.6 to 0.35 for desktop */
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="100" width="100" viewBox="0 0 100 100"><defs><filter id="grainy"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="6" seed="5"/><feComposite operator="multiply" in2="SourceGraphic"/></filter></defs><rect width="100%25" height="100%25" fill="%23ffffff" filter="url(%23grainy)"/></svg>');
+  background-size: 80px 80px; /* Slightly larger than before for less density */
   mix-blend-mode: overlay;
   will-change: transform;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+/* Reduce grain density on mobile */
+@media (max-width: 768px) {
+  .grain-texture-global::before {
+    opacity: 0.25; /* Reduced from 0.3 to 0.25 */
+    background-size: 120px 120px; /* Even larger for mobile */
+    baseFrequency: 1.2; /* Less complex grain on mobile */
+  }
 }
 
 /* Main floating animation */

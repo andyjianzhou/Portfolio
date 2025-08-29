@@ -6,33 +6,74 @@ import * as THREE from "three"
 
 function LiquidBlob() {
   const meshRef = useRef<THREE.Mesh>(null)
-  const [currentSection, setCurrentSection] = useState('home')
+  const [, setCurrentSection] = useState('home')
+  const scrollDataRef = useRef({ scrollY: 0, homeHeight: 0, aboutTop: 0 })
+  const frameCountRef = useRef(0)
+  const isScrollingRef = useRef(false)
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Track which section we're in
+  // Track which section we're in with heavily optimized scroll updates
   useEffect(() => {
+    // Cache DOM elements once
+    const homeSection = document.getElementById('home')
+    const aboutSection = document.getElementById('about')
+    
+    if (!homeSection || !aboutSection) return
+    
+    // Cache heights once and update on resize
+    const updateHeights = () => {
+      scrollDataRef.current.homeHeight = homeSection.offsetHeight
+      scrollDataRef.current.aboutTop = aboutSection.offsetTop
+    }
+    
+    updateHeights()
+    
+    // Heavily debounced scroll handler - prioritize scroll performance
+    let lastUpdate = 0
     const handleScroll = () => {
-      const homeSection = document.getElementById('home')
-      const aboutSection = document.getElementById('about')
+      const now = Date.now()
       
-      if (!homeSection || !aboutSection) return
-      
-      const scrollY = window.scrollY
-      const homeHeight = homeSection.offsetHeight
-      const aboutTop = aboutSection.offsetTop
-      
-      if (scrollY < homeHeight * 0.7) {
-        setCurrentSection('home')
-      } else if (scrollY >= aboutTop - 200) {
-        setCurrentSection('about')
-      } else {
-        setCurrentSection('transition')
+      // Mark as scrolling and reset timeout
+      isScrollingRef.current = true
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
       }
+      
+      // Update scroll position immediately (lightweight)
+      scrollDataRef.current.scrollY = window.scrollY
+      
+      // Only do heavy computations every 100ms during scroll
+      if (now - lastUpdate > 100) {
+        lastUpdate = now
+        
+        const { scrollY, homeHeight, aboutTop } = scrollDataRef.current
+        
+        if (scrollY < homeHeight * 0.7) {
+          setCurrentSection('home')
+        } else if (scrollY >= aboutTop - 200) {
+          setCurrentSection('about')
+        } else {
+          setCurrentSection('transition')
+        }
+      }
+      
+      // Mark as not scrolling after 150ms of no scroll events
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false
+      }, 150)
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', updateHeights, { passive: true })
     handleScroll() // Initial check
     
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', updateHeights)
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
+    }
   }, [])
 
   // Create high-resolution sphere geometry for smooth deformation
@@ -223,52 +264,55 @@ function LiquidBlob() {
   useFrame((state) => {
     if (meshRef.current && meshRef.current.material) {
       const material = meshRef.current.material as THREE.ShaderMaterial
+      
+      // Always update time for animation continuity
       material.uniforms.uTime.value = state.clock.elapsedTime
-      material.uniforms.uScrollY.value = window.scrollY || 0
-
-      // Continuous smooth color transition based on scroll position
-      const scrollY = window.scrollY || 0
-      const homeSection = document.getElementById('home')
-      const aboutSection = document.getElementById('about')
       
-      if (homeSection && aboutSection) {
-        const homeHeight = homeSection.offsetHeight
-        const aboutTop = aboutSection.offsetTop
+      // Use cached scroll data
+      const scrollY = scrollDataRef.current.scrollY
+      material.uniforms.uScrollY.value = scrollY
+
+      frameCountRef.current++
+      
+      // If actively scrolling, reduce update frequency drastically
+      const updateInterval = isScrollingRef.current ? 6 : 3 // 10fps during scroll, 20fps when idle
+      
+      if (frameCountRef.current % updateInterval === 0) {
+        const { homeHeight, aboutTop } = scrollDataRef.current
         
-        // Calculate transition progress based on scroll position
-        const transitionStart = homeHeight * 0.5 // Start transition halfway through home section
-        const transitionEnd = aboutTop - 100 // Complete transition just before about section
-        
-        // Create smooth continuous transition value between 0 and 1
-        let targetTransition = 0
-        if (scrollY <= transitionStart) {
-          targetTransition = 0 // Silver/Gray
-        } else if (scrollY >= transitionEnd) {
-          targetTransition = 1 // Dark Gray
-        } else {
-          // Smooth interpolation between start and end points
-          const progress = (scrollY - transitionStart) / (transitionEnd - transitionStart)
-          targetTransition = Math.min(1, Math.max(0, progress)) // Clamp between 0 and 1
+        if (homeHeight > 0 && aboutTop > 0) {
+          // Calculate transition progress based on scroll position
+          const transitionStart = homeHeight * 0.5
+          const transitionEnd = aboutTop - 100
+          
+          let targetTransition = 0
+          if (scrollY <= transitionStart) {
+            targetTransition = 0 // Silver/Gray
+          } else if (scrollY >= transitionEnd) {
+            targetTransition = 1 // Dark Gray
+          } else {
+            const progress = (scrollY - transitionStart) / (transitionEnd - transitionStart)
+            targetTransition = Math.min(1, Math.max(0, progress))
+          }
+          
+          material.uniforms.uColorTransition.value = targetTransition
         }
-        
-        // Apply the transition directly without lerping for immediate response
-        material.uniforms.uColorTransition.value = targetTransition
-      }
 
-      // Tumbling across the screen with scroll
-      const scrollFactor = scrollY * 0.001
-      
-      // Add tumbling rotation as you scroll
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.1 + scrollFactor * 0.5
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.1 + scrollFactor * 0.8
-      meshRef.current.rotation.z = scrollFactor * 0.3 // Z-axis tumbling
-      
-      // Tumble across the screen horizontally as you scroll
-      const horizontalMovement = Math.sin(scrollFactor * 0.4) * 1.5 // Sine wave movement across screen
-      meshRef.current.position.x = horizontalMovement
-      
-      // Gentle vertical floating + slight bounce from scroll
-      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.2 + Math.sin(scrollFactor * 0.6) * 0.2
+        // Tumbling across the screen with scroll (only update when needed)
+        const scrollFactor = scrollY * 0.001
+        
+        // Add tumbling rotation as you scroll
+        meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.1 + scrollFactor * 0.5
+        meshRef.current.rotation.y = state.clock.elapsedTime * 0.1 + scrollFactor * 0.8
+        meshRef.current.rotation.z = scrollFactor * 0.3
+        
+        // Tumble across the screen horizontally as you scroll
+        const horizontalMovement = Math.sin(scrollFactor * 0.4) * 1.5
+        meshRef.current.position.x = horizontalMovement
+        
+        // Gentle vertical floating + slight bounce from scroll
+        meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.2 + Math.sin(scrollFactor * 0.6) * 0.2
+      }
     }
   })
 
@@ -388,22 +432,59 @@ function MobileBlobAlternative() {
 }
 
 export default function ThreeBackground() {
+  // const [isScrolling, setIsScrolling] = useState(false)
+  // const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setIsScrolling(true)
+      
+  //     if (scrollTimeoutRef.current) {
+  //       clearTimeout(scrollTimeoutRef.current)
+  //     }
+      
+  //     scrollTimeoutRef.current = setTimeout(() => {
+  //       setIsScrolling(false)
+  //     }, 100) // Resume rendering 100ms after scroll stops
+  //   }
+
+  //   window.addEventListener('scroll', handleScroll, { passive: true })
+    
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll)
+  //     if (scrollTimeoutRef.current) {
+  //       clearTimeout(scrollTimeoutRef.current)
+  //     }
+  //   }
+  // }, [])
+
   return (
     <>
-      {/* Desktop: Full Three.js blob */}
-      <div className="hidden md:block fixed inset-0 -z-10">
-        <Canvas camera={{ position: [0, 0, 8], fov: 60 }} style={{ background: "transparent" }}>
+      {/* TEMPORARILY DISABLED - Desktop: Full Three.js blob */}
+      {/* <div className="hidden md:block fixed inset-0 -z-10">
+        <Canvas 
+          camera={{ position: [0, 0, 8], fov: 60 }} 
+          style={{ 
+            background: "transparent",
+            // Reduce rendering priority during scroll
+            ...(isScrolling && { opacity: 0.8, transition: 'opacity 0.1s ease' })
+          }}
+          frameloop={isScrolling ? 'demand' : 'always'} // Pause rendering during scroll
+        >
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} intensity={1} />
           <pointLight position={[-10, -10, -10]} intensity={0.5} color="#b0b0b0" />
           <LiquidBlob />
         </Canvas>
-      </div>
+      </div> */}
       
-      {/* Mobile: Lightweight CSS alternative */}
-      <div className="md:hidden">
+      {/* TEMPORARILY DISABLED - Mobile: Lightweight CSS alternative */}
+      {/* <div className="md:hidden">
         <MobileBlobAlternative />
-      </div>
+      </div> */}
+      
+      {/* Placeholder div to keep the component structure */}
+      <div className="fixed inset-0 -z-10" />
     </>
   )
 }
