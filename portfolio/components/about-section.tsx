@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import "../styles/about-section.css"
@@ -8,6 +8,7 @@ import "../styles/about-section.css"
 export default function AboutSection() {
   const [activeTab, setActiveTab] = useState("experience")
   const [scrollProgress, setScrollProgress] = useState(0)
+  const sectionRef = useRef<HTMLElement>(null)
 
   const experiences = [
     {
@@ -105,6 +106,16 @@ export default function AboutSection() {
     "Git & CI/CD"
   ]
 
+  const handleCategoryClick = (category: string) => {
+    setActiveTab(category)
+    
+    // Smooth scroll back to the top of the about section
+    sectionRef.current?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }
+
   // Timeline scroll progress animation
   useEffect(() => {
     if (activeTab === "experience") {
@@ -127,7 +138,7 @@ export default function AboutSection() {
   }, [activeTab])
 
   return (
-    <section id="about" className="min-h-screen flex items-center py-20">
+    <section ref={sectionRef} id="about" className="min-h-screen flex items-center py-20">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-4xl md:text-6xl font-mono font-medium mb-12 text-white text-center tracking-[0.3em] uppercase">About Me</h2>
 
@@ -137,7 +148,7 @@ export default function AboutSection() {
             {Object.entries(categories).map(([key, category]) => (
               <button
                 key={key}
-                onClick={() => setActiveTab(key)}
+                onClick={() => handleCategoryClick(key)}
                 className={`px-4 py-3 rounded-full transition-all duration-300 text-sm font-sans font-medium tracking-wide min-h-[44px] ${
                   activeTab === key
                     ? "bg-white/15 text-white border border-white/30 shadow-lg backdrop-blur-sm"
@@ -157,7 +168,7 @@ export default function AboutSection() {
               {Object.entries(categories).map(([key, category]) => (
                 <button
                   key={key}
-                  onClick={() => setActiveTab(key)}
+                  onClick={() => handleCategoryClick(key)}
                   className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 text-sm ${
                     activeTab === key
                       ? "bg-gradient-to-r from-white/15 to-gray-200/10 text-white border border-white/20 shadow-lg backdrop-blur-sm"
