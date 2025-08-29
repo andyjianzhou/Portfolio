@@ -549,12 +549,12 @@
 }
 
 .scroll-left {
-  animation: scroll-left 25s linear infinite;
+  animation: scroll-left 80s linear infinite; /* Changed from 40s to 80s - 2x slower */
 }
 
 .scroll-text {
-  animation: scroll-left 30s linear infinite;
-  animation-delay: -15s;
+  animation: scroll-left 90s linear infinite; /* Changed from 45s to 90s - 2x slower */
+  animation-delay: -45s; /* Adjusted delay proportionally */
 }
 
 /* Mobile Hero Text - Creative Vertical Design */
@@ -740,8 +740,8 @@
 }
 
 .animate-scroll-left {
-  animation: scroll-left 30s linear infinite;
-  animation-delay: -15s;
+  animation: scroll-left 90s linear infinite; /* Changed from 45s to 90s - 2x slower */
+  animation-delay: -45s; /* Adjusted delay proportionally */
 }
 
 .custom-cursor {
