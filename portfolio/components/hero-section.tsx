@@ -2,6 +2,8 @@
 
 import { Button } from "@/components/ui/button"
 import { useEffect, useRef } from "react"
+import MorphingText from "./MorphingText"
+import HeroMorphingText from "./HeroMorphingText"
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -44,11 +46,14 @@ export default function HeroSection() {
     <section ref={sectionRef} id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Desktop: Horizontal massive text - behind slime ball */}
       <div className="absolute inset-0 hidden md:flex items-center justify-center pointer-events-none overflow-hidden -z-12">
-        <div className="hero-massive-text select-none">
-          <div className="hero-text-line">BUILDING</div>
-          <div className="hero-text-line hero-text-gradient">SCALABLE</div>
-          <div className="hero-text-line">SOLUTIONS</div>
-        </div>
+        <HeroMorphingText 
+          textPairs={[
+            { english: 'BUILDING', chinese: '构建' },
+            { english: 'SCALABLE', chinese: '可扩展' },
+            { english: 'SOLUTIONS', chinese: '解决方案' }
+          ]}
+          cycleDuration={12000}
+        />
       </div>
 
       {/* Mobile: Creative vertical design */}
@@ -114,13 +119,32 @@ export default function HeroSection() {
         <div className="font-mono text-gray-200 uppercase text-center">
           {/* Mobile: Stacked vertically */}
           <div className="block md:hidden">
-            <p className="text-lg tracking-[0.3em]">A N D Y</p>
-            <p className="text-lg tracking-[0.3em]">Z H O U</p>
+            <p className="text-lg tracking-[0.3em]">
+              <MorphingText 
+                englishText="A N D Y" 
+                chineseText="周 健 龙"
+                cycleDuration={8000}
+                className="inline-block"
+              />
+            </p>
+            <p className="text-lg tracking-[0.3em]">
+              <MorphingText 
+                englishText="Z H O U" 
+                chineseText=""
+                cycleDuration={8000}
+                className="inline-block"
+              />
+            </p>
           </div>
           {/* Desktop: Horizontal with original spacing */}
           <div className="hidden md:block">
             <p className="text-xl tracking-[0.3em]">
-              A N D Y &nbsp;&nbsp; Z H O U
+              <MorphingText 
+                englishText="A N D Y     Z H O U" 
+                chineseText="周 健 龙"
+                cycleDuration={8000}
+                className="inline-block"
+              />
             </p>
           </div>
         </div>
