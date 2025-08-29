@@ -256,7 +256,6 @@ function LiquidBlob() {
       }
 
       // Tumbling across the screen with scroll
-      const scrollY = window.scrollY || 0
       const scrollFactor = scrollY * 0.001
       
       // Add tumbling rotation as you scroll
