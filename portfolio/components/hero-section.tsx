@@ -42,8 +42,8 @@ export default function HeroSection() {
 
   return (
     <section ref={sectionRef} id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Desktop: Horizontal massive text */}
-      <div className="absolute inset-0 hidden md:flex items-center justify-center pointer-events-none overflow-hidden">
+      {/* Desktop: Horizontal massive text - behind slime ball */}
+      <div className="absolute inset-0 hidden md:flex items-center justify-center pointer-events-none overflow-hidden -z-12">
         <div className="hero-massive-text select-none">
           <div className="hero-text-line">BUILDING</div>
           <div className="hero-text-line hero-text-gradient">SCALABLE</div>
@@ -102,9 +102,9 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Scrolling text overlay */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-5">
-        <div className="scroll-text whitespace-nowrap text-6xl md:text-7xl font-light text-white/3 select-none">
+      {/* Scrolling text overlay - behind slime ball */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-15">
+        <div className="scroll-text whitespace-nowrap text-6xl md:text-7xl font-serif font-light italic text-white select-none tracking-wide">
           AWS CERTIFIED • SOFTWARE DEVELOPER • SYSTEM OPTIMIZATION • CLOUD ARCHITECTURE •
         </div>
       </div>

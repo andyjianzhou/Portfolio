@@ -214,10 +214,10 @@ function LiquidBlob() {
         float specularIntensity = mix(0.4, 0.25, uColorTransition);
         vec3 finalColor = baseColor + specular * vec3(specularIntensity, specularIntensity, specularIntensity);
         
-        gl_FragColor = vec4(finalColor, 0.85);
+        gl_FragColor = vec4(finalColor, 1.0);
       }
     `,
-    transparent: true,
+    transparent: false,
     side: THREE.DoubleSide,
   })
 
@@ -387,9 +387,8 @@ export default function ShaderBackground() {
       <div className="fixed inset-0 -z-20">
         <MeshGradient
           className="w-full h-full"
-          colors={["#000000", "#1a1a1a", "#333333", "#ffffff"]}
+          colors={["#000000", "#0a0a0a", "#1a1a1a", "#2a2a2a"]}
           speed={speed}
-          backgroundColor="#000000"
         />
       </div>
 
