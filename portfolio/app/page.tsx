@@ -1,4 +1,4 @@
-import ThreeBackground from "@/components/three-background"
+import ShaderBackground from "@/components/shader-background"
 import Navigation from "@/components/navigation"
 import HeroSection from "@/components/hero-section"
 import AboutSection from "@/components/about-section"
@@ -9,7 +9,7 @@ import ScrollAnimations from "@/components/scroll-animations"
 export default function Home() {
   return (
     <main className="relative">
-      <ThreeBackground />
+      <ShaderBackground />
       <ScrollAnimations />
       <Navigation />
       <div className="scroll-reveal">
