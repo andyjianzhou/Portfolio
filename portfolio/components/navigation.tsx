@@ -238,7 +238,7 @@ export default function Navigation() {
           {/* Decorative Elements */}
           <div className="mt-12 pt-8 border-t border-white/10">
             <div className="text-white/40 text-sm text-center">
-              <p className="font-mono tracking-widest">ANDY ZHOU</p>
+              <p className="font-mono tracking-widest">A N D Y    Z H O U</p>
               <p className="mt-2 text-xs font-sans">Software Developer</p>
             </div>
           </div>

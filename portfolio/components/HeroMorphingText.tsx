@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 
 interface TextPair {
   english: string
@@ -10,6 +10,7 @@ interface TextPair {
 interface HeroMorphingTextProps {
   textPairs: TextPair[]
   cycleDuration?: number
+  initialDelay?: number
 }
 
 const glitchChars = ['█', '▓', '▒', '░', '▄', '▀', '▌', '▐', '■', '□', '▪', '▫', '◆', '◇']
@@ -24,12 +25,15 @@ type GlitchLine = {
 
 export default function HeroMorphingText({ 
   textPairs, 
-  cycleDuration = 12000 
+  cycleDuration = 12000,
+  initialDelay = 900 
 }: HeroMorphingTextProps) {
   const [lines, setLines] = useState<GlitchLine[]>(
     textPairs.map(pair => ({ text: pair.english, isGlitching: false, glitchIntensity: 0 }))
   )
+  const isEnglishRef = useRef(true)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const startTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const glitchMorphLine = async (lineIndex: number, fromText: string, toText: string) => {
     const steps = 25
@@ -87,29 +91,41 @@ export default function HeroMorphingText({
     }
   }
 
-  const triggerMorphSequence = async () => {
-    // Check current state based on the first line
-    const isCurrentlyEnglish = lines[0].text === textPairs[0].english
+  const triggerMorphSequence = useCallback(async () => {
+    // Use the ref for stable state tracking
+    const currentIsEnglish = isEnglishRef.current
     
     // Staggered morph with chaos
-    for (let i = 0; i < textPairs.length; i++) {
-      setTimeout(async () => {
-        const fromText = isCurrentlyEnglish ? textPairs[i].english : textPairs[i].chinese
-        const toText = isCurrentlyEnglish ? textPairs[i].chinese : textPairs[i].english
-        await glitchMorphLine(i, fromText, toText)
-      }, i * 300) // Stagger each line
-    }
-  }
+    const promises = textPairs.map((pair, i) => {
+      return new Promise<void>((resolve) => {
+        setTimeout(async () => {
+          const fromText = currentIsEnglish ? pair.english : pair.chinese
+          const toText = currentIsEnglish ? pair.chinese : pair.english
+          await glitchMorphLine(i, fromText, toText)
+          resolve()
+        }, i * 300) // Stagger each line
+      })
+    })
+    
+    // Wait for all morphs to complete, then flip state
+    await Promise.all(promises)
+    isEnglishRef.current = !currentIsEnglish
+  }, [textPairs])
 
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
+    // Kick off early, then continue with normal cadence
+    startTimeoutRef.current = setTimeout(() => {
       triggerMorphSequence()
-    }, cycleDuration)
+      intervalRef.current = setInterval(() => {
+        triggerMorphSequence()
+      }, cycleDuration)
+    }, Math.max(0, initialDelay))
 
     return () => {
+      if (startTimeoutRef.current) clearTimeout(startTimeoutRef.current)
       if (intervalRef.current) clearInterval(intervalRef.current)
     }
-  }, [cycleDuration])
+  }, [cycleDuration, initialDelay, triggerMorphSequence])
 
   return (
     <div className="hero-massive-text select-none">

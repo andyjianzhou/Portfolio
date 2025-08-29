@@ -53,6 +53,7 @@ export default function HeroSection() {
             { english: 'SOLUTIONS', chinese: '解决方案' }
           ]}
           cycleDuration={12000}
+          initialDelay={700}
         />
       </div>
 
@@ -124,6 +125,7 @@ export default function HeroSection() {
                 englishText="A N D Y" 
                 chineseText="周 健 龙"
                 cycleDuration={8000}
+                initialDelay={400}
                 className="inline-block"
               />
             </p>
@@ -132,6 +134,7 @@ export default function HeroSection() {
                 englishText="Z H O U" 
                 chineseText=""
                 cycleDuration={8000}
+                initialDelay={900}
                 className="inline-block"
               />
             </p>
@@ -143,6 +146,7 @@ export default function HeroSection() {
                 englishText="A N D Y     Z H O U" 
                 chineseText="周 健 龙"
                 cycleDuration={8000}
+                initialDelay={500}
                 className="inline-block"
               />
             </p>

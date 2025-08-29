@@ -7,6 +7,7 @@ interface MorphingTextProps {
   chineseText: string
   className?: string
   cycleDuration?: number
+  initialDelay?: number
 }
 
 const glitchChars = ['█', '▓', '▒', '░', '▄', '▀', '▌', '▐', '■', '□', '▪', '▫', '◆', '◇', '◢', '◣', '◤', '◥']
@@ -16,12 +17,14 @@ export default function MorphingText({
   englishText, 
   chineseText, 
   className = "", 
-  cycleDuration = 6000
+  cycleDuration = 6000,
+  initialDelay = 600
 }: MorphingTextProps) {
   const [displayText, setDisplayText] = useState(englishText)
   const [isGlitching, setIsGlitching] = useState(false)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const glitchRef = useRef<NodeJS.Timeout | null>(null)
+  const startTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const morphText = async (fromText: string, toText: string) => {
     const maxLength = Math.max(fromText.length, toText.length)
@@ -74,24 +77,29 @@ export default function MorphingText({
 
   useEffect(() => {
     let currentIsEnglish = true
-    
-    const startMorphCycle = () => {
+
+    // Kick off an early first morph, then continue with normal cadence
+    startTimeoutRef.current = setTimeout(async () => {
+      const fromText = currentIsEnglish ? englishText : chineseText
+      const toText = currentIsEnglish ? chineseText : englishText
+      await morphText(fromText, toText)
+      currentIsEnglish = !currentIsEnglish
+
+      // After the first morph, set the normal interval cadence
       intervalRef.current = setInterval(async () => {
-        const fromText = currentIsEnglish ? englishText : chineseText
-        const toText = currentIsEnglish ? chineseText : englishText
-        
-        await morphText(fromText, toText)
+        const from = currentIsEnglish ? englishText : chineseText
+        const to = currentIsEnglish ? chineseText : englishText
+        await morphText(from, to)
         currentIsEnglish = !currentIsEnglish
       }, cycleDuration)
-    }
-
-    startMorphCycle()
+    }, Math.max(0, initialDelay))
 
     return () => {
+      if (startTimeoutRef.current) clearTimeout(startTimeoutRef.current)
       if (intervalRef.current) clearInterval(intervalRef.current)
       if (glitchRef.current) clearTimeout(glitchRef.current)
     }
-  }, [englishText, chineseText, cycleDuration])
+  }, [englishText, chineseText, cycleDuration, initialDelay])
 
   return (
     <span 
