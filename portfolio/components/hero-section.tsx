@@ -42,7 +42,7 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden grain-texture-global">
+    <section ref={sectionRef} id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Desktop: Horizontal massive text - behind slime ball */}
       <div className="absolute inset-0 hidden md:flex items-center justify-center pointer-events-none overflow-hidden -z-12">
         <div className="hero-massive-text select-none">
