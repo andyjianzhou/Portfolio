@@ -549,12 +549,12 @@
 }
 
 .scroll-left {
-  animation: scroll-left 35s linear infinite; /* Change to speed up */
+  animation: scroll-left 20s linear infinite; /* Change to speed up */
 }
 
 .scroll-text {
-  animation: scroll-left 40s linear infinite; /* Change to speed up */
-  animation-delay: -25s; /* Adjusted delay proportionally */
+  animation: scroll-left 25s linear infinite; /* Change to speed up */
+  animation-delay: -15s; /* Adjusted delay proportionally */
 }
 
 /* Mobile Hero Text - Creative Vertical Design */
