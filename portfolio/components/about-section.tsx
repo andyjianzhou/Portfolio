@@ -17,7 +17,7 @@ export default function AboutSection() {
       role: "Software Development Engineer Intern",
       year: "2025",
       duration: "Summer 2025",
-      description: "Developing scalable cloud infrastructure and services, working with cutting-edge AWS technologies to build solutions that serve millions of users globally.",
+      description: "Developed a health insights monitoring system surfacing error insights for 500+ engineers across 36 regions.",
       logo: "/logos/aws.svg",
       tags: ["AWS", "Cloud Computing", "Distributed Systems", "Data Optimization", "Data Engineering"]
     },
