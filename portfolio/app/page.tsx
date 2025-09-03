@@ -10,22 +10,22 @@ import AboutBlur from "@/components/AboutBlur"
 export default function Home() {
   return (
     <main className="relative">
-      {/* Background layer - this will get blurred */}
+      {/* Background shader layer */}
       <div id="background-layer" className="fixed inset-0 z-0">
         <ShaderBackground />
       </div>
       
-      {/* Background text layer - behind liquid blob */}
+      {/* Hero section with background texts (behind liquid blob) */}
       <div className="relative z-2">
         <HeroSection />
       </div>
       
-      {/* Liquid blob layer - above background text but below specific hero content */}
+      {/* Liquid blob layer (above background texts, below hero title) */}
       <div id="liquid-blob-layer" className="fixed inset-0 z-3">
         <LiquidBlob />
       </div>
       
-      {/* Only "Software Engineer" text above liquid blob - overlays the hero section */}
+      {/* Hero title overlay (above liquid blob) */}
       <div className="absolute top-0 left-0 right-0 z-4 pointer-events-none">
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
@@ -41,14 +41,16 @@ export default function Home() {
         </div>
       </div>
       
-      {/* Content layer - stays crisp and above liquid blob */}
+      {/* Main content layer (above everything) */}
       <div className="relative z-10">
         <AboutBlur />
         <ScrollAnimations />
         <Navigation />
+        
         <div className="scroll-reveal">
           <AboutSection />
         </div>
+        
         <div className="scroll-reveal">
           <ContactSection />
         </div>

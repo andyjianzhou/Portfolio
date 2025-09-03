@@ -24,35 +24,44 @@ export default function Navigation() {
   // Scroll detection for active section
   useEffect(() => {
     const sections = ["home", "about", "contact"]
+    let ticking = false
 
     const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      const windowHeight = window.innerHeight
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollPosition = window.scrollY
+          const windowHeight = window.innerHeight
+          let newActiveSection = activeSection
 
-      // Check if we're at the very top (home section)
-      if (scrollPosition < windowHeight * 0.5) {
-        if (activeSection !== "home") {
-          setActiveSection("home")
-        }
-        return
-      }
-
-      // Check other sections
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i])
-        if (section && sections[i] !== "home") {
-          const sectionTop = section.offsetTop
-          const sectionHeight = section.offsetHeight
-          
-          // Section is active if scroll position is within the section bounds
-          if (scrollPosition >= sectionTop - windowHeight * 0.3 && 
-              scrollPosition < sectionTop + sectionHeight - windowHeight * 0.3) {
-            if (activeSection !== sections[i]) {
-              setActiveSection(sections[i])
+          // Check if we're at the very top (home section)
+          if (scrollPosition < windowHeight * 0.4) {
+            newActiveSection = "home"
+          } else {
+            // Check other sections
+            for (let i = sections.length - 1; i >= 0; i--) {
+              const section = document.getElementById(sections[i])
+              if (section && sections[i] !== "home") {
+                const sectionTop = section.offsetTop
+                const sectionHeight = section.offsetHeight
+                
+                // Section is active if scroll position is within the section bounds
+                if (scrollPosition >= sectionTop - windowHeight * 0.4 && 
+                    scrollPosition < sectionTop + sectionHeight - windowHeight * 0.2) {
+                  newActiveSection = sections[i]
+                  break
+                }
+              }
             }
-            break
           }
-        }
+
+          // Only update if the section actually changed
+          if (newActiveSection !== activeSection) {
+            setActiveSection(newActiveSection)
+          }
+
+          ticking = false
+        })
+        ticking = true
       }
     }
 
@@ -73,19 +82,21 @@ export default function Navigation() {
       const activeButton = buttonRefs.current[activeIndex]
       
       if (activeButton && containerRef.current) {
-        // Small delay to ensure DOM is updated
-        setTimeout(() => {
-          const containerRect = containerRef.current!.getBoundingClientRect()
-          const buttonRect = activeButton.getBoundingClientRect()
-          
-          const left = buttonRect.left - containerRect.left
-          const width = buttonRect.width
-          
-          setIndicatorStyle({ left, width })
-        }, 0)
+        // Use requestAnimationFrame for smoother animation
+        requestAnimationFrame(() => {
+          if (containerRef.current && activeButton) {
+            const containerRect = containerRef.current.getBoundingClientRect()
+            const buttonRect = activeButton.getBoundingClientRect()
+            
+            const left = buttonRect.left - containerRect.left
+            const width = buttonRect.width
+            
+            setIndicatorStyle({ left, width })
+          }
+        })
       }
     }
-  }, [activeSection, isMobile])
+  }, [activeSection, isMobile]) // Keep dependencies but use requestAnimationFrame
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId)
