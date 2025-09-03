@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button"
 import { useEffect, useRef } from "react"
-import MorphingText from "./MorphingText"
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -108,34 +107,16 @@ export default function HeroSection() {
           {/* Mobile: Stacked vertically */}
           <div className="block md:hidden">
             <p className="text-lg tracking-[0.3em]">
-              <MorphingText 
-                englishText="A N D Y" 
-                chineseText="周 健 龙"
-                cycleDuration={8000}
-                initialDelay={400}
-                className="inline-block"
-              />
+              <span className="inline-block" style={{fontFamily: 'monospace', letterSpacing: '0.1em', textShadow: 'none', filter: 'none', transform: 'none'}}>A N D Y</span>
             </p>
             <p className="text-lg tracking-[0.3em]">
-              <MorphingText 
-                englishText="Z H O U" 
-                chineseText=""
-                cycleDuration={8000}
-                initialDelay={900}
-                className="inline-block"
-              />
+              <span className="inline-block" style={{fontFamily: 'monospace', letterSpacing: '0.1em', textShadow: 'none', filter: 'none', transform: 'none'}}>Z H O U</span>
             </p>
           </div>
           {/* Desktop: Horizontal with original spacing */}
           <div className="hidden md:block">
             <p className="text-xl tracking-[0.3em]">
-              <MorphingText 
-                englishText="A N D Y     Z H O U" 
-                chineseText="周 健 龙"
-                cycleDuration={8000}
-                initialDelay={500}
-                className="inline-block"
-              />
+              <span className="inline-block" style={{fontFamily: 'monospace', letterSpacing: '0.1em', textShadow: 'none', filter: 'none', transform: 'none'}}>A N D Y     Z H O U</span>
             </p>
           </div>
         </div>
