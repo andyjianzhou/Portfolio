@@ -98,7 +98,7 @@ export default function HeroSection() {
       {/* Scrolling text overlay - behind slime ball */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
         <div className="scroll-text whitespace-nowrap text-6xl md:text-7xl font-serif font-light italic text-white select-none tracking-wide">
-          ML Enthusiast • Software Developer • System Design • Data Engineering •
+          ML Enthusiast • System Design • Data Engineering • Cloud Architecture • Full-stack Development •
         </div>
       </div>
 
