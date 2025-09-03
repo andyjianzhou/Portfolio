@@ -23,9 +23,16 @@ export default function AboutBlur() {
 
   useEffect(() => {
     const backgroundLayer = document.getElementById('background-layer');
+    const liquidBlobLayer = document.getElementById('liquid-blob-layer');
+    
     if (backgroundLayer) {
       backgroundLayer.style.filter = isBlurred ? 'blur(12px)' : 'blur(0px)';
       backgroundLayer.style.transition = 'filter 0.8s ease-out';
+    }
+    
+    if (liquidBlobLayer) {
+      liquidBlobLayer.style.filter = isBlurred ? 'blur(12px)' : 'blur(0px)';
+      liquidBlobLayer.style.transition = 'filter 0.8s ease-out';
     }
   }, [isBlurred]);
 

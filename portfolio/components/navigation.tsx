@@ -26,13 +26,27 @@ export default function Navigation() {
     const sections = ["home", "about", "contact"]
 
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 3 // Offset for better detection
+      const scrollPosition = window.scrollY
+      const windowHeight = window.innerHeight
 
+      // Check if we're at the very top (home section)
+      if (scrollPosition < windowHeight * 0.5) {
+        if (activeSection !== "home") {
+          setActiveSection("home")
+        }
+        return
+      }
+
+      // Check other sections
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i])
-        if (section) {
+        if (section && sections[i] !== "home") {
           const sectionTop = section.offsetTop
-          if (scrollPosition >= sectionTop) {
+          const sectionHeight = section.offsetHeight
+          
+          // Section is active if scroll position is within the section bounds
+          if (scrollPosition >= sectionTop - windowHeight * 0.3 && 
+              scrollPosition < sectionTop + sectionHeight - windowHeight * 0.3) {
             if (activeSection !== sections[i]) {
               setActiveSection(sections[i])
             }
