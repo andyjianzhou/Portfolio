@@ -23,55 +23,45 @@ export default function Navigation() {
 
   // Scroll detection for active section
   useEffect(() => {
-    const sections = ["home", "about", "contact"]
-    let ticking = false
-
     const handleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          const scrollPosition = window.scrollY
-          const windowHeight = window.innerHeight
-          let newActiveSection = activeSection
-
-          // Check if we're at the very top (home section)
-          if (scrollPosition < windowHeight * 0.4) {
-            newActiveSection = "home"
-          } else {
-            // Check other sections
-            for (let i = sections.length - 1; i >= 0; i--) {
-              const section = document.getElementById(sections[i])
-              if (section && sections[i] !== "home") {
-                const sectionTop = section.offsetTop
-                const sectionHeight = section.offsetHeight
-                
-                // Section is active if scroll position is within the section bounds
-                if (scrollPosition >= sectionTop - windowHeight * 0.4 && 
-                    scrollPosition < sectionTop + sectionHeight - windowHeight * 0.2) {
-                  newActiveSection = sections[i]
-                  break
-                }
-              }
-            }
+      const scrollPosition = window.scrollY
+      const windowHeight = window.innerHeight
+      let newActiveSection = "home" // Default to home
+      
+      // Check home section first (top 80% of viewport)
+      if (scrollPosition < windowHeight * 0.8) {
+        newActiveSection = "home"
+      } else {
+        // Check other sections
+        const aboutElement = document.getElementById("about")
+        const contactElement = document.getElementById("contact")
+        const offset = windowHeight * 0.3
+        
+        if (contactElement) {
+          const contactTop = contactElement.offsetTop
+          if (scrollPosition + offset >= contactTop) {
+            newActiveSection = "contact"
           }
-
-          // Only update if the section actually changed
-          if (newActiveSection !== activeSection) {
-            setActiveSection(newActiveSection)
+        }
+        
+        if (aboutElement && newActiveSection !== "contact") {
+          const aboutTop = aboutElement.offsetTop
+          if (scrollPosition + offset >= aboutTop) {
+            newActiveSection = "about"
           }
-
-          ticking = false
-        })
-        ticking = true
+        }
+      }
+      
+      if (newActiveSection !== activeSection) {
+        setActiveSection(newActiveSection)
       }
     }
 
-    // Initial check
+    // Initial check and event listener
     handleScroll()
-    
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [activeSection])
 
   // Update indicator position when active section changes
@@ -82,8 +72,8 @@ export default function Navigation() {
       const activeButton = buttonRefs.current[activeIndex]
       
       if (activeButton && containerRef.current) {
-        // Use requestAnimationFrame for smoother animation
-        requestAnimationFrame(() => {
+        // Small delay to ensure DOM is updated
+        setTimeout(() => {
           if (containerRef.current && activeButton) {
             const containerRect = containerRef.current.getBoundingClientRect()
             const buttonRect = activeButton.getBoundingClientRect()
@@ -93,10 +83,10 @@ export default function Navigation() {
             
             setIndicatorStyle({ left, width })
           }
-        })
+        }, 0)
       }
     }
-  }, [activeSection, isMobile]) // Keep dependencies but use requestAnimationFrame
+  }, [activeSection, isMobile])
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId)
